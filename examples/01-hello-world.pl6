@@ -2,10 +2,9 @@
 
 use v6;
 
+use lib 'lib';
 use GTK::Simple::App;
 use GTK::Simple::Raw;
-
-use lib 'lib';
 use GTK::Scintilla;
 use GTK::Scintilla::Raw;
 

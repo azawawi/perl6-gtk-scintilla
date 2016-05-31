@@ -1,7 +1,7 @@
 
 use v6;
 
-module GTK::Scintilla;
+unit module GTK::Scintilla;
 
 # Scintilla.h
 constant SCI_INSERTTEXT is export    = 2003;
