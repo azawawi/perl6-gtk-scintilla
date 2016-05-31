@@ -6,7 +6,6 @@
 # This makefile is based on the bait example by Neil Hodgson 
 # <neilh@scintilla.org> which was released to the public domain in 2000.
 #
-.SUFFIXES: .c .o .h .a
 
 INCLUDEDIRS=-Iscintilla/include
 CXXFLAGS= -DGTK -DSCI_LEXER -W -Wall

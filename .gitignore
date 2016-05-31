@@ -1,1 +1,3 @@
 .precomp
+*.o
+*.a
