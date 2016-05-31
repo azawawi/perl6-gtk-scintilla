@@ -12,15 +12,20 @@ CXXFLAGS= -DGTK -DSCI_LEXER -W -Wall
 LEXEROBJS=$(wildcard scintilla/gtk/Lex*.o)
 GTK_CFLAGS=`pkg-config --cflags gtk+-3.0`
 GTK_LDFLAGS=`pkg-config --libs gtk+-3.0 gthread-2.0 gobject-2.0 gmodule-no-export-2.0` -lm -lstdc++
+LIB_SO = ../resources/libwidget.so
+LIB_SCINTILLA=scintilla/bin/scintilla.a
 
-all: clean libwidget.so
+all: clean $(LIB_SO)
 
 widget.o: widget.c
 	gcc $(GTK_CFLAGS) $(INCLUDEDIRS) $(CXXFLAGS) -c $^ -fpic -o $@
 
-libwidget.so: widget.o $(LEXEROBJS) scintilla/bin/scintilla.a
+$(LIB_SCINTILLA):
+	(cd scintilla/gtk && GTK3=1 $(MAKE))
+
+$(LIB_SO): widget.o $(LEXEROBJS) $(LIB_SCINTILLA)
 	gcc --shared -DGTK $^ -o $@ $(GTK_LDFLAGS)
 
 clean:
 	rm -f *.o
-	rm -f libwidget.so
+	rm -f ../resources/libwidget.so
