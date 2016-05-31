@@ -1,15 +1,11 @@
 
 use v6;
 use Test;
+
+plan 2;
+
 use GTK::Scintilla;
+ok 1, "use GTK::Scintilla worked";
 
-plan *;
-
-if %*ENV<DISPLAY> {
-    my $g;
-    lives-ok { $g = app }
-    lives-ok { scheduler.cue: { $g.exit } }
-    lives-ok { $g.run }
-}
-
-done-testing;
+use GTK::Scintilla::Raw;
+ok 1, "use GTK::Scintilla::Raw worked";

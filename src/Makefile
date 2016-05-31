@@ -30,4 +30,4 @@ $(LIB_SO): widget.o $(LEXEROBJS) $(LIB_SCINTILLA)
 
 clean:
 	rm -f *.o
-	rm -f ../resources/libwidget.so
+	rm -rf ../resources
