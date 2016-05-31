@@ -20,5 +20,4 @@ install:
   - panda installdeps .
 
 script:
-    - prove -v -e "perl6 -Ilib" t/
-    - panda install GTK::Scintilla
+    - prove -v -e "perl6 -Ilib" t/ && panda install GTK::Scintilla
