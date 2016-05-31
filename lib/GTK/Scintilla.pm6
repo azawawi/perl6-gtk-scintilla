@@ -8,8 +8,10 @@ constant SCI_INSERTTEXT is export    = 2003;
 constant SCI_STYLECLEARALL is export = 2050;
 constant SCI_STYLESETFORE is export  = 2051;
 constant SCI_STYLESETBOLD is export  = 2053;
+constant SCI_GETTEXTLENGTH is export = 2183;
 constant SCI_SETLEXER is export      = 4001;
 constant SCI_SETKEYWORDS is export   = 4005;
+
 
 # SciLexer.h
 constant SCLEX_PERL is export = 6;

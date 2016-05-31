@@ -24,5 +24,9 @@ method set-lexer(Int $lexer) {
 }
 
 method insert-text(Int $pos, Str $text) {
-    gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, 0, $text);
+    gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, $pos, $text);
+}
+
+method get-length() {
+    gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
 }

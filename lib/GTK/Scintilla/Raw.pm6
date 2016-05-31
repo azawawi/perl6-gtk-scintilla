@@ -17,7 +17,7 @@ sub gtk_scintilla_set_id(Pointer $sci, int32 $id)
     { * }
     
 sub gtk_scintilla_send_message(Pointer $sci, uint32 $iMessage, int32 $wParam, int32 $lParam)
-    returns Pointer
+    returns uint32
     is native(&library)
     is export
     { * }
