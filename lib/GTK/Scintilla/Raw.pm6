@@ -28,17 +28,3 @@ sub gtk_scintilla_send_message_str(Pointer $sci, uint32 $iMessage, int32 $wParam
     is symbol('gtk_scintilla_send_message')
     is export
     { * }
-
-multi sub SSM(Pointer $sci, Int $iMessage, Int $wParam, Int $lParam)
-    is export
-    returns Pointer
-{
-    return gtk_scintilla_send_message($sci, $iMessage, $wParam, $lParam);
-}
-
-multi sub SSM(Pointer $sci, Int $iMessage, Int $wParam, Str $lParam)
-    is export
-    returns Pointer
-{
-    return gtk_scintilla_send_message_str($sci, $iMessage, $wParam, $lParam);
-}

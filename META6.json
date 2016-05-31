@@ -6,8 +6,9 @@
     "depends"       : [ "GTK::Simple" ],
     "build-depends" : [ "panda" ],
     "provides"      : {
-        "GTK::Scintilla"      : "lib/GTK/Scintilla.pm6",
-        "GTK::Scintilla::Raw" : "lib/GTK/Scintilla/Raw.pm6"
+        "GTK::Scintilla"         : "lib/GTK/Scintilla.pm6",
+        "GTK::Scintilla::Raw"    : "lib/GTK/Scintilla/Raw.pm6",
+        "GTK::Scintilla::Editor" : "lib/GTK/Scintilla/Editor.pm6"
     },
     "resources"     : [ "libwidget.so" ],
     "repo-type"     : "git",
