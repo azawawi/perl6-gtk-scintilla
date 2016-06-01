@@ -48,7 +48,7 @@ printf("edge-color  = 0x%x\n", $editor.get-edge-color);
 
 # Zoom API
 $editor.set-zoom(10);
-printf("get-zoom    = 0x%x\n", $editor.get-zoom());
+printf("get-zoom    = %d\n", $editor.get-zoom());
 
 $editor.style-clear-all;
 $editor.set-lexer(SCLEX_PERL);
