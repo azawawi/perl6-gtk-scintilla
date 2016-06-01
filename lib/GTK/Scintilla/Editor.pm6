@@ -31,6 +31,7 @@ method get-length() {
     gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
 }
 
+##  Long line API
 #
 # SCI_SETEDGEMODE(int edgeMode)
 # SCI_GETEDGEMODE
@@ -46,10 +47,6 @@ method get-edge-mode returns Int {
 #
 # SCI_SETEDGECOLUMN(int column)
 # SCI_GETEDGECOLUMN
-# These messages set and get the column number at which to display the long line
-# marker. When drawing lines, the column sets a position in units of the width
-# of a space character in STYLE_DEFAULT. When setting the background colour, the
-# column is a character count (allowing for tabs) into the line.
 #
 method set-edge-column(Int $column) {
     gtk_scintilla_send_message($!gtk_widget, SCI_SETEDGECOLUMN, $column, 0);
@@ -62,8 +59,6 @@ method get-edge-column returns Int {
 #
 # SCI_SETEDGECOLOUR(int colour)
 # SCI_GETEDGECOLOUR
-# These messages set and get the colour of the marker used to show that a line
-# has exceeded the length set by SCI_SETEDGECOLUMN.
 #
 method set-edge-color(Int $color) {
     gtk_scintilla_send_message($!gtk_widget, SCI_SETEDGECOLOUR, $color, 0);
@@ -72,3 +67,74 @@ method set-edge-color(Int $color) {
 method get-edge-color returns Int {
     gtk_scintilla_send_message($!gtk_widget, SCI_GETEDGECOLOUR, 0, 0);
 }
+
+#
+# Zoom API
+#
+# SCI_ZOOMIN
+# SCI_ZOOMOUT
+# SCI_SETZOOM(int zoomInPoints)
+# SCI_GETZOOM
+#
+method zoom-in {
+    gtk_scintilla_send_message($!gtk_widget, SCI_ZOOMIN, 0, 0);
+}
+
+method zoom-out {
+    gtk_scintilla_send_message($!gtk_widget, SCI_ZOOMOUT, 0, 0);
+}
+
+method set-zoom(Int $zoom-in-points) {
+    gtk_scintilla_send_message($!gtk_widget, SCI_SETZOOM, $zoom-in-points, 0);
+}
+
+method get-zoom returns Int {
+    gtk_scintilla_send_message($!gtk_widget, SCI_GETZOOM, 0, 0);
+}
+
+=begin pod
+
+=head1 Name
+
+GTK::Scintilla::Editor - GTK Scintilla Editor Widget
+
+=head1 Synopsis
+
+TODO Add Synopsis ection documentation
+
+=head1 Description
+
+TODO Add Description section documentation
+
+=head1 Methods
+
+=head2 Long lines
+
+Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
+
+=head3 set-edge-mode
+
+=head3 get-edge-mode
+
+=head3 set-edge-column
+
+=head3 get-edge-column
+
+=head3 set-edge-color
+
+=head3 get-edge-color
+
+
+=head2 Zooming
+
+Please see L<here|http://www.scintilla.org/ScintillaDoc.html#Zooming>.
+
+=head3 zoom-in
+
+=head3 zoom-out
+
+=head3 set-zoom
+
+=head3 get-zoom
+
+=end pod

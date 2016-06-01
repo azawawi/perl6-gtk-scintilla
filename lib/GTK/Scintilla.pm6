@@ -9,12 +9,16 @@ constant SCI_STYLECLEARALL is export = 2050;
 constant SCI_STYLESETFORE is export  = 2051;
 constant SCI_STYLESETBOLD is export  = 2053;
 constant SCI_GETTEXTLENGTH is export = 2183;
+constant SCI_ZOOMIN is export        = 2333;
+constant SCI_ZOOMOUT is export       = 2334;
 constant SCI_GETEDGECOLUMN is export = 2360;
 constant SCI_SETEDGECOLUMN is export = 2361;
 constant SCI_GETEDGEMODE is export   = 2362;
 constant SCI_SETEDGEMODE is export   = 2363;
 constant SCI_GETEDGECOLOUR is export = 2364;
 constant SCI_SETEDGECOLOUR is export = 2365;
+constant SCI_SETZOOM is export       = 2373;
+constant SCI_GETZOOM is export       = 2374;
 constant SCI_SETLEXER is export      = 4001;
 constant SCI_SETKEYWORDS is export   = 4005;
 
