@@ -9,6 +9,12 @@ constant SCI_STYLECLEARALL is export = 2050;
 constant SCI_STYLESETFORE is export  = 2051;
 constant SCI_STYLESETBOLD is export  = 2053;
 constant SCI_GETTEXTLENGTH is export = 2183;
+constant SCI_GETEDGECOLUMN is export = 2360;
+constant SCI_SETEDGECOLUMN is export = 2361;
+constant SCI_GETEDGEMODE is export   = 2362;
+constant SCI_SETEDGEMODE is export   = 2363;
+constant SCI_GETEDGECOLOUR is export = 2364;
+constant SCI_SETEDGECOLOUR is export = 2365;
 constant SCI_SETLEXER is export      = 4001;
 constant SCI_SETKEYWORDS is export   = 4005;
 
@@ -61,3 +67,7 @@ constant SCE_PL_HERE_QX_VAR is export = 62;
 constant SCE_PL_STRING_QQ_VAR is export = 64;
 constant SCE_PL_STRING_QX_VAR is export = 65;
 constant SCE_PL_STRING_QR_VAR is export = 66;
+
+constant EDGE_NONE is export       = 0;
+constant EDGE_LINE is export       = 1;
+constant EDGE_BACKGROUND is export = 2;

@@ -29,6 +29,12 @@ $insert-text-bottom-button.clicked.tap: {
     $editor.insert-text($length, "# a bottom comment\n");
 };
 
+$editor.set-edge-mode(EDGE_LINE);
+printf("edge-mode   = %d\n",   $editor.get-edge-mode);
+$editor.set-edge-column(80);
+printf("edge-column = %d\n",   $editor.get-edge-column);
+printf("edge-color  = 0x%x\n", $editor.get-edge-color);
+
 $editor.style-clear-all;
 $editor.set-lexer(SCLEX_PERL);
 $editor.style-set-foreground(SCE_PL_COMMENTLINE, 0x008000);
