@@ -61,7 +61,7 @@ sub add-menu-bar($app) {
         $app.exit;
     }
 
-    my $menu-bar-vbox = $menu-bar.pack;
+    $menu-bar.pack;
 }
 
 sub add-toolbar($app) {
@@ -93,5 +93,5 @@ sub add-toolbar($app) {
         $app.exit;
     }
 
-    my $toolbar-vbox = $toolbar.pack;
+    $toolbar.pack;
 }
