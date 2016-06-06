@@ -19,7 +19,13 @@ sub MAIN() {
     my $toolbar-vbox  = add-toolbar($app);
     my $menu-bar-vbox = add-menu-bar($app);
     my $editor        = add-editor($app);
-    $app.set-content( GTK::Simple::VBox.new($menu-bar-vbox, $toolbar-vbox, $editor) );
+    $app.set-content(
+        GTK::Simple::VBox.new([
+            { :widget($menu-bar-vbox), :expand(False) },
+            { :widget($toolbar-vbox),  :expand(False) },
+            $editor
+        ])
+    );
     $app.show-all;
     $app.run;
 }
@@ -30,11 +36,11 @@ sub add-editor($app) {
     $editor.style-clear-all;
     $editor.set-lexer(SCLEX_PERL);
     $editor.style-set-foreground(SCE_PL_COMMENTLINE, 0x008000);
-    $editor.style-set-foreground(SCE_PL_POD, 0x008000);
-    $editor.style-set-foreground(SCE_PL_NUMBER, 0x808000);
-    $editor.style-set-foreground(SCE_PL_WORD, 0x800000);
-    $editor.style-set-foreground(SCE_PL_STRING, 0x800080);
-    $editor.style-set-foreground(SCE_PL_OPERATOR, 1);
+    $editor.style-set-foreground(SCE_PL_POD,         0x008000);
+    $editor.style-set-foreground(SCE_PL_NUMBER,      0x808000);
+    $editor.style-set-foreground(SCE_PL_WORD,        0x800000);
+    $editor.style-set-foreground(SCE_PL_STRING,      0x800080);
+    $editor.style-set-foreground(SCE_PL_OPERATOR,    1);
     $editor.insert-text(0, q{
     # A Perl comment
     use Modern::Perl;
