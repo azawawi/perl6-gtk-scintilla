@@ -5,7 +5,7 @@ os:
   - osx
 
 perl6:
-  - 2016.05
+  - 2016.12
   - latest
 
 before_install:
@@ -16,8 +16,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew install gtk+3                ; fi
 
 install:
-  - rakudobrew build panda
-  - panda installdeps .
+  - rakudobrew build zef
+  - zef --depsonly install .
 
 script:
-    - prove -v -e "perl6 -Ilib" t/ && panda install GTK::Scintilla
+    - prove -v -e "perl6 -Ilib" t/ && zef install GTK::Scintilla
