@@ -63,7 +63,7 @@ $ panda install GTK::Scintilla
 To run tests:
 
 ```
-$ prove -e "perl6 -Ilib"
+$ prove -ve "perl6 -Ilib"
 ```
 
 ## Author

@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module GTK::Scintilla;
+unit class GTK::Scintilla;
 
 # Scintilla.h
 constant SCI_INSERTTEXT is export    = 2003;
@@ -75,3 +75,12 @@ constant SCE_PL_STRING_QR_VAR is export = 66;
 constant EDGE_NONE is export       = 0;
 constant EDGE_LINE is export       = 1;
 constant EDGE_BACKGROUND is export = 2;
+
+method version {
+    return {
+        major  => 3,
+        minor  => 7,
+        patch  => 2,
+        string => "3.7.2"
+    }
+}
