@@ -21,11 +21,12 @@ $editor.style-set-foreground(SCE_PL_NUMBER,      0x808000);
 $editor.style-set-foreground(SCE_PL_WORD,        0x800000);
 $editor.style-set-foreground(SCE_PL_STRING,      0x800080);
 $editor.style-set-foreground(SCE_PL_OPERATOR, 1);
-$editor.insert-text(0, q{
+my $version = $editor.version<string>;
+$editor.insert-text(0, qq{
 # A Perl comment
 use Modern::Perl;
 
-say "Hello world";
+say "Hello world from Scintilla v$version";
 });
 
 $editor.show;

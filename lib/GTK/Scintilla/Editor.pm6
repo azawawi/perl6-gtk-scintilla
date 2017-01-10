@@ -92,6 +92,15 @@ method get-zoom returns Int {
     gtk_scintilla_send_message($!gtk_widget, SCI_GETZOOM, 0, 0);
 }
 
+method version {
+    return {
+        major  => 3,
+        minor  => 7,
+        patch  => 2,
+        string => "3.7.2"
+    }
+}
+
 =begin pod
 
 =head1 Name
