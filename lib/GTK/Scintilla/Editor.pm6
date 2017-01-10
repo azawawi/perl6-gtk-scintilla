@@ -27,8 +27,15 @@ method insert-text(Int $pos, Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, $pos, $text);
 }
 
-method get-length() {
+method get-text-length() {
     gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
+}
+
+#TODO http://www.scintilla.org/ScintillaDoc.html#SCI_GETTEXT
+method get-text() {
+    ...
+    #gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXT, 0, 0);
+    #(int length, stringresult text)
 }
 
 ##  Long line API

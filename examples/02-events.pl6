@@ -26,7 +26,7 @@ $insert-text-top-button.clicked.tap: {
 };
 
 $insert-text-bottom-button.clicked.tap: {
-    my $length = $editor.get-length;
+    my $length = $editor.get-text-length;
     say "Length: $length";
     $editor.insert-text($length, "# a bottom comment\n");
 };

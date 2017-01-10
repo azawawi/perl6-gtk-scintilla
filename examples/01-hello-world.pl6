@@ -21,7 +21,7 @@ $editor.style-set-foreground(SCE_PL_NUMBER,      0x808000);
 $editor.style-set-foreground(SCE_PL_WORD,        0x800000);
 $editor.style-set-foreground(SCE_PL_STRING,      0x800080);
 $editor.style-set-foreground(SCE_PL_OPERATOR, 1);
-my $version = $editor.version<string>;
+my $version = GTK::Scintilla.version<string>;
 $editor.insert-text(0, qq{
 # A Perl comment
 use Modern::Perl;
@@ -29,5 +29,13 @@ use Modern::Perl;
 say "Hello world from Scintilla v$version";
 });
 
-$editor.show;
+say $editor.get-text-length;
+#say $editor.get-text;
+
+start {
+    #$editor.show;
+    sleep 5;
+    $app.exit;
+};
+
 $app.run;
