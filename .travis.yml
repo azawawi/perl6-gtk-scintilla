@@ -18,6 +18,7 @@ before_install:
 install:
   - rakudobrew build zef
   - zef --depsonly install .
+  - zef build .
 
 # Headless GUI Testing
 before_script:
