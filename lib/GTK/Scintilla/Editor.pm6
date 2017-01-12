@@ -24,15 +24,24 @@ method set-lexer(Int $lexer) {
     gtk_scintilla_send_message($!gtk_widget, SCI_SETLEXER, $lexer, 0);
 }
 
+##
+## Text retrieval and modification
+##
+
+#
+# SCI_INSERTTEXT(int pos, const char *text)
+#
 method insert-text(Int $pos, Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, $pos, $text);
 }
 
+#
+# SCI_GETTEXTLENGTH => int
+#
 method get-text-length() returns Int {
     return gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
 }
 
-## Text retrieval and modification
 #
 # SCI_SETTEXT(<unused>, const char *text)
 #
@@ -55,7 +64,10 @@ method get-text() returns Str {
     return $text;
 }
 
+##
 ##  Long line API
+##
+
 #
 # SCI_SETEDGEMODE(int edgeMode)
 # SCI_GETEDGEMODE
@@ -92,9 +104,10 @@ method get-edge-color returns Int {
     gtk_scintilla_send_message($!gtk_widget, SCI_GETEDGECOLOUR, 0, 0);
 }
 
-#
-# Zoom API
-#
+##
+## Zoom API
+##
+
 # SCI_ZOOMIN
 # SCI_ZOOMOUT
 # SCI_SETZOOM(int zoomInPoints)
