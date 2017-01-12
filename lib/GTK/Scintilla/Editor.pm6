@@ -32,10 +32,17 @@ method get-text-length() returns Int {
     return gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
 }
 
+## Text retrieval and modification
+#
+# SCI_SETTEXT(<unused>, const char *text)
+#
 method set-text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, SCI_SETTEXT, 0, $text);
 }
 
+#
+# SCI_GETTEXT(int length, char *text NUL-terminated) => int
+#
 method get-text() returns Str {
     my $buffer-length = self.get-text-length + 1;
     my $buffer = CArray[uint8].new;
