@@ -6,11 +6,11 @@ use Panda::Builder;
 
 
 class Build is Panda::Builder {
-    method build($workdir) {
-        my $makefiledir = "$workdir/src";
-        my $destdir = "$workdir/resources";
-        $destdir.IO.mkdir;
+    method build($work-dir) {
+        my $make-file-dir = "$work-dir/src";
+        my $dest-dir = "$work-dir/resources";
+        $dest-dir.IO.mkdir;
 
-        shell("cd $makefiledir && make");
+        shell("cd $make-file-dir && make");
     }
 }
