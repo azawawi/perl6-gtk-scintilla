@@ -41,7 +41,7 @@ sub add-editor($app) {
     $editor.style-set-foreground(SCE_PL_WORD,        0x800000);
     $editor.style-set-foreground(SCE_PL_STRING,      0x800080);
     $editor.style-set-foreground(SCE_PL_OPERATOR,    1);
-    $editor.insert-text(0, q{
+    $editor.set-text(q{
     # A Perl comment
     use Modern::Perl;
 
