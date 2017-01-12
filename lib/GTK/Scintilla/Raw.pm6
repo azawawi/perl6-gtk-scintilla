@@ -23,7 +23,14 @@ sub gtk_scintilla_send_message(Pointer $sci, uint32 $iMessage, int32 $wParam, in
     { * }
 
 sub gtk_scintilla_send_message_str(Pointer $sci, uint32 $iMessage, int32 $wParam, Str $lParam)
-    returns Pointer
+    returns uint32
+    is native(&library)
+    is symbol('gtk_scintilla_send_message')
+    is export
+    { * }
+
+sub gtk_scintilla_send_message_carray(Pointer $sci, uint32 $iMessage, int32 $wParam, CArray[uint8] $lParam)
+    returns uint32
     is native(&library)
     is symbol('gtk_scintilla_send_message')
     is export

@@ -3,6 +3,7 @@ use v6;
 use GTK::Simple::Widget;
 use GTK::Scintilla;
 use GTK::Scintilla::Raw;
+use NativeCall;
 
 unit class GTK::Scintilla::Editor does GTK::Simple::Widget;
 
@@ -27,15 +28,24 @@ method insert-text(Int $pos, Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, $pos, $text);
 }
 
-method get-text-length() {
-    gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
+method get-text-length() returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
 }
 
-#TODO http://www.scintilla.org/ScintillaDoc.html#SCI_GETTEXT
-method get-text() {
-    ...
-    #gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXT, 0, 0);
-    #(int length, stringresult text)
+method set-text(Str $text) {
+    gtk_scintilla_send_message_str($!gtk_widget, SCI_SETTEXT, 0, $text);
+}
+
+method get-text() returns Str {
+    my $buffer-length = self.get-text-length + 1;
+    my $buffer = CArray[uint8].new;
+    $buffer[$buffer-length - 1] = 0;
+    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETTEXT, $buffer-length, $buffer);
+    my $text = '';
+    for 0..$buffer-length - 2 -> $i {
+        $text ~= chr($buffer[$i]);
+    }
+    return $text;
 }
 
 ##  Long line API
