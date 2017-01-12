@@ -11,6 +11,6 @@ class Build is Panda::Builder {
         my $dest-dir = "$work-dir/resources";
         $dest-dir.IO.mkdir;
 
-        shell("cd $make-file-dir && make");
+        shell("cd $make-file-dir && make clean && make");
     }
 }
