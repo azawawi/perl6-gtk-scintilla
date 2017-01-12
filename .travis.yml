@@ -10,8 +10,14 @@ perl6:
 
 before_install:
   - echo $TRAVIS_OS_NAME
+  # Install GTK 3 development libraries
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get -qq update           ; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libgtk-3-dev ; fi
+  # Start xvfb for GTK headless testing and give it some time to start
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export DISPLAY=:99.0         ; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sh -e /etc/init.d/xvfb start ; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sleep 3                      ; fi
+  # For macOS
   - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew update                       ; fi
   - if [ "$TRAVIS_OS_NAME" == "osx"   ]; then brew install gtk+3                ; fi
 
@@ -19,12 +25,6 @@ install:
   - rakudobrew build zef
   - zef --depsonly install .
   - zef build .
-
-# Headless GUI Testing
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
 
 script:
     - prove -v -e "perl6 -Ilib" t/ && zef install GTK::Scintilla
