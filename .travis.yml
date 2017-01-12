@@ -27,4 +27,4 @@ install:
   - zef build .
 
 script:
-    - prove -v -e "perl6 -Ilib" t/ && zef install GTK::Scintilla
+    - prove -v -e "perl6 -Ilib" t && zef install GTK::Scintilla
