@@ -37,6 +37,89 @@ method set-lexer(Int $lexer) {
 }
 
 ##
+## Cut, copy and paste
+##
+
+#
+# SCI_CUT
+#
+method cut() {
+    gtk_scintilla_send_message($!gtk_widget, 2177, 0, 0);
+    return;
+}
+
+#
+# SCI_COPY
+#
+method copy() {
+    gtk_scintilla_send_message($!gtk_widget, 2178, 0, 0);
+    return;
+}
+
+#
+# SCI_PASTE
+#
+method paste() {
+    gtk_scintilla_send_message($!gtk_widget, 2179, 0, 0);
+    return;
+}
+
+#
+# SCI_CLEAR
+#
+method clear() {
+    gtk_scintilla_send_message($!gtk_widget, 2180, 0, 0);
+    return;
+}
+
+#
+# SCI_CANPASTE → bool
+#
+method can-paste() {
+    gtk_scintilla_send_message($!gtk_widget, 2173, 0, 0);
+    return;
+}
+
+#
+# SCI_COPYRANGE(int start, int end)
+#
+method copy-range(Int $start, Int $end) {
+    gtk_scintilla_send_message($!gtk_widget, 2419, $start, $end);
+    return;
+}
+
+#
+# SCI_COPYTEXT(int length, const char *text)
+#
+method copy-text(Int $text) {
+    gtk_scintilla_send_message_str($!gtk_widget, 2420, $text.chars, $text);
+    return;
+}
+
+#
+# SCI_COPYALLOWLINE
+#
+method copy-allow-line() {
+    gtk_scintilla_send_message($!gtk_widget, 2519, 0, 0);
+    return;
+}
+
+#
+# SCI_SETPASTECONVERTENDINGS(bool convert)
+#
+method set-paste-convert-endings(Bool $convert) {
+    gtk_scintilla_send_message($!gtk_widget, 2467, $convert ?? 1 !! 0, 0);
+    return;
+}
+
+#
+# SCI_GETPASTECONVERTENDINGS → bool
+#
+method get-paste-convert-endings(Bool $convert) {
+    return gtk_scintilla_send_message($!gtk_widget, 2468, 0, 0) == 1;
+}
+
+##
 ## Text retrieval and modification
 ##
 
