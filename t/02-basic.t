@@ -59,3 +59,6 @@ $editor.clear-all;
 ok($editor.get-text-length == 0, "clear-all & get-text-length works");
 ok($editor.get-text eq "", "clear-all & get-text works");
 ok($editor.get-line-count == 1, "clear-all & get-line-count works");
+
+#TODO test style-get-bold
+#TODO test style-set-bold

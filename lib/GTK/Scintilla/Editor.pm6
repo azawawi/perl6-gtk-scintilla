@@ -14,15 +14,23 @@ submethod BUILD(Int $id = 0) {
 }
 
 method style-clear-all {
-    gtk_scintilla_send_message($!gtk_widget, SCI_STYLECLEARALL, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2050, 0, 0);
 }
 
 method style-set-foreground(Int $style, Int $color) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_STYLESETFORE, $style, $color);
+    gtk_scintilla_send_message($!gtk_widget, 2051, $style, $color);
+}
+
+method style-set-bold(Int $style, Bool $bold) {
+    gtk_scintilla_send_message($!gtk_widget, 2053, $style, $bold ?? 1 !! 0);
+}
+
+method style-get-bold(Int $style) returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2483, $style, 0) == 1;
 }
 
 method set-lexer(Int $lexer) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETLEXER, $lexer, 0);
+    gtk_scintilla_send_message($!gtk_widget, 4001, $lexer, 0);
 }
 
 ##
@@ -33,21 +41,21 @@ method set-lexer(Int $lexer) {
 # SCI_INSERTTEXT(int pos, const char *text)
 #
 method insert-text(Int $pos, Str $text) {
-    gtk_scintilla_send_message_str($!gtk_widget, SCI_INSERTTEXT, $pos, $text);
+    gtk_scintilla_send_message_str($!gtk_widget, 2003, $pos, $text);
 }
 
 #
 # SCI_GETTEXTLENGTH => int
 #
 method get-text-length() returns Int {
-    return gtk_scintilla_send_message($!gtk_widget, SCI_GETTEXTLENGTH, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2183, 0, 0);
 }
 
 #
 # SCI_SETTEXT(<unused>, const char *text)
 #
 method set-text(Str $text) {
-    gtk_scintilla_send_message_str($!gtk_widget, SCI_SETTEXT, 0, $text);
+    gtk_scintilla_send_message_str($!gtk_widget, 2181, 0, $text);
 }
 
 
@@ -58,7 +66,7 @@ method get-text() returns Str {
     my $buffer-length = self.get-text-length + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
-    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETTEXT,
+    my $len = gtk_scintilla_send_message_carray($!gtk_widget, 2182,
         $buffer-length, $buffer);
     my $text = '';
     for 0..$buffer-length - 2 -> $i {
@@ -75,7 +83,7 @@ method get-text() returns Str {
 # name "save point".
 #
 method set-save-point() {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETSAVEPOINT, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2014, 0, 0);
     return;
 }
 
@@ -89,7 +97,7 @@ method get-line(Int $line) returns Str {
     my $buffer-length = self.get-line-length($line) + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
-    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETLINE,
+    my $len = gtk_scintilla_send_message_carray($!gtk_widget, 2153,
         $line, $buffer);
     my $text = '';
     for 0..$buffer-length - 2 -> $i {
@@ -108,18 +116,18 @@ method get-line(Int $line) returns Str {
 # SCI_GETLINEENDPOSITION(line) - SCI_POSITIONFROMLINE(line).
 #
 method get-line-length(Int $line) returns Int {
-    return gtk_scintilla_send_message($!gtk_widget, SCI_LINELENGTH, $line, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2350, $line, 0);
 }
 
 #
 # Unless the document is read-only, this deletes all the text.
 #
 method clear-all {
-    return gtk_scintilla_send_message($!gtk_widget, SCI_CLEARALL, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2004, 0, 0);
 }
 
 method get-line-count {
-    return gtk_scintilla_send_message($!gtk_widget, SCI_GETLINECOUNT, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2154, 0, 0);
 }
 
 ##
@@ -131,11 +139,11 @@ method get-line-count {
 # SCI_GETEDGEMODE
 #
 method set-edge-mode(Int $edge-mode) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETEDGEMODE, $edge-mode, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2363, $edge-mode, 0);
 }
 
 method get-edge-mode returns Int {
-    gtk_scintilla_send_message($!gtk_widget, SCI_GETEDGEMODE, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0);
 }
 
 #
@@ -143,11 +151,11 @@ method get-edge-mode returns Int {
 # SCI_GETEDGECOLUMN
 #
 method set-edge-column(Int $column) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETEDGECOLUMN, $column, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2361, $column, 0);
 }
 
 method get-edge-column returns Int {
-    gtk_scintilla_send_message($!gtk_widget, SCI_GETEDGECOLUMN, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
 
 #
@@ -155,11 +163,11 @@ method get-edge-column returns Int {
 # SCI_GETEDGECOLOUR
 #
 method set-edge-color(Int $color) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETEDGECOLOUR, $color, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2365, $color, 0);
 }
 
 method get-edge-color returns Int {
-    gtk_scintilla_send_message($!gtk_widget, SCI_GETEDGECOLOUR, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
 
 ##
@@ -172,19 +180,19 @@ method get-edge-color returns Int {
 # SCI_GETZOOM
 #
 method zoom-in {
-    gtk_scintilla_send_message($!gtk_widget, SCI_ZOOMIN, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2333, 0, 0);
 }
 
 method zoom-out {
-    gtk_scintilla_send_message($!gtk_widget, SCI_ZOOMOUT, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2334, 0, 0);
 }
 
 method set-zoom(Int $zoom-in-points) {
-    gtk_scintilla_send_message($!gtk_widget, SCI_SETZOOM, $zoom-in-points, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2373, $zoom-in-points, 0);
 }
 
 method get-zoom returns Int {
-    gtk_scintilla_send_message($!gtk_widget, SCI_GETZOOM, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
 }
 
 =begin pod
