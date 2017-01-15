@@ -12,11 +12,14 @@ install:
   - rakudobrew build zef
   - cd %APPVEYOR_BUILD_FOLDER%
   - zef --depsonly install .
+  - zef install Test::META
   - zef build .
 
 build: off
 
 test_script:
-  - prove -v -e "perl6 -Ilib" t && zef install GTK::Scintilla
+  - prove -ve "perl6 -Ilib" t
+  - TEST_AUTHOR=1 prove -ve "perl6 -Ilib" t
+  - zef install GTK::Scintilla
 
 shallow_clone: true

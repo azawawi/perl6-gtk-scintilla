@@ -24,7 +24,10 @@ before_install:
 install:
   - rakudobrew build zef
   - zef --depsonly install .
+  - zef install Test::META
   - zef build .
 
 script:
-    - prove -v -e "perl6 -Ilib" t && zef install GTK::Scintilla
+    - prove -ve "perl6 -Ilib" t
+    - TEST_AUTHOR=1 prove -ve "perl6 -Ilib" t
+    - zef install GTK::Scintilla
