@@ -98,6 +98,7 @@ method get-line(Int $line) returns Str {
     return $text;
 }
 
+
 #
 # SCI_LINELENGTH(int line) → int
 #
@@ -108,6 +109,13 @@ method get-line(Int $line) returns Str {
 #
 method get-line-length(Int $line) returns Int {
     return gtk_scintilla_send_message($!gtk_widget, SCI_LINELENGTH, $line, 0);
+}
+
+#
+# Unless the document is read-only, this deletes all the text.
+#
+method clear-all {
+    return gtk_scintilla_send_message($!gtk_widget, SCI_CLEARALL, 0, 0);
 }
 
 ##

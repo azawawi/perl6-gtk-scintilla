@@ -14,6 +14,7 @@ constant SCI_SETSAVEPOINT is export  = 2014;
 constant SCI_GETLINE is export       = 2153;
 constant SCI_SETTEXT is export       = 2181;
 constant SCI_GETTEXT is export       = 2182;
+constant SCI_CLEARALL is export      = 2004;
 constant SCI_ZOOMIN is export        = 2333;
 constant SCI_ZOOMOUT is export       = 2334;
 constant SCI_GETEDGECOLUMN is export = 2360;

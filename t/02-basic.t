@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2\n" ];
 
-plan 9 + @lines.elems * 2;
+plan 12 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -28,10 +28,11 @@ my $editor = GTK::Scintilla::Editor.new;
 $editor.size-request(500, 300);
 $app.set-content($editor);
 
-# Test set-text and get-text equality
+# Test set-text, get-text and get-text-length equality
 my $text = @lines.join("");
 $editor.set-text($text);
 ok( $editor.get-text  eq $text, "get and set text works" );
+ok( $editor.get-text-length eq $text.chars, "get-text-length works");
 
 # Test get-line-length and get-line return values
 my $num-lines = @lines.elems;
@@ -50,3 +51,7 @@ ok($editor.get-line($num-lines) eq "", "get-line($num-lines) must return empty a
 
 # TODO Test set-save-point
 #$editor.set-save-point;
+
+$editor.clear-all;
+ok($editor.get-text-length == 0, "clear-all works");
+ok($editor.get-text eq "", "clear-all works");
