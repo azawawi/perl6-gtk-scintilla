@@ -1,10 +1,9 @@
 {
     "name"          : "GTK::Scintilla",
-    "version"       : "0.0.3",
+    "version"       : "0.0.4",
     "perl"          : "6.c",
     "description"   : "GTK Scintilla widget for source code editing",
     "test-depends"  : [
-        "panda",
         "GTK::Simple",
         "Test"
     ],
