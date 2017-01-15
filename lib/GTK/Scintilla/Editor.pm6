@@ -7,6 +7,24 @@ use GTK::Simple::Widget;
 
 unit class GTK::Scintilla::Editor does GTK::Simple::Widget;
 
+=begin pod
+
+=head1 Name
+
+GTK::Scintilla::Editor - GTK Scintilla Editor Widget
+
+=head1 Synopsis
+
+TODO Add Synopsis section documentation
+
+=head1 Description
+
+TODO Add Description section documentation
+
+=head1 Methods
+
+=end pod
+
 submethod BUILD(Int $id = 0) {
     $!gtk_widget = gtk_scintilla_new;
     gtk_scintilla_set_id($!gtk_widget, $id);
@@ -310,6 +328,14 @@ method get-line-count {
     return gtk_scintilla_send_message($!gtk_widget, 2154, 0, 0);
 }
 
+=begin pod
+
+=head2 Long lines
+
+Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
+
+=end pod
+
 ##
 ##  Long line API
 ##
@@ -318,10 +344,20 @@ method get-line-count {
 # SCI_SETEDGEMODE(int edgeMode)
 # SCI_GETEDGEMODE
 #
+=begin pod
+
+=head3 set-edge-mode
+
+=end pod
 method set-edge-mode(Int $edge-mode) {
     gtk_scintilla_send_message($!gtk_widget, 2363, $edge-mode, 0);
 }
 
+=begin pod
+
+=head3 get-edge-mode
+
+=end pod
 method get-edge-mode returns Int {
     gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0);
 }
@@ -330,11 +366,21 @@ method get-edge-mode returns Int {
 # SCI_SETEDGECOLUMN(int column)
 # SCI_GETEDGECOLUMN
 #
+=begin pod
+
+=head3 set-edge-column
+
+=end pod
 method set-edge-column(Int $column) {
     gtk_scintilla_send_message($!gtk_widget, 2361, $column, 0);
     return;
 }
 
+=begin pod
+
+=head3 get-edge-column
+
+=end pod
 method get-edge-column returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
@@ -343,11 +389,21 @@ method get-edge-column returns Int {
 # SCI_SETEDGECOLOUR(int colour)
 # SCI_GETEDGECOLOUR
 #
+=begin pod
+
+=head3 set-edge-color
+
+=end pod
 method set-edge-color(Int $color) {
     gtk_scintilla_send_message($!gtk_widget, 2365, $color, 0);
     return;
 }
 
+=begin pod
+
+=head3 get-edge-color
+
+=end pod
 method get-edge-color returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
@@ -480,37 +536,6 @@ method get-cursor returns CursorType {
 }
 
 =begin pod
-
-=head1 Name
-
-GTK::Scintilla::Editor - GTK Scintilla Editor Widget
-
-=head1 Synopsis
-
-TODO Add Synopsis ection documentation
-
-=head1 Description
-
-TODO Add Description section documentation
-
-=head1 Methods
-
-=head2 Long lines
-
-Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
-
-=head3 set-edge-mode
-
-=head3 get-edge-mode
-
-=head3 set-edge-column
-
-=head3 get-edge-column
-
-=head3 set-edge-color
-
-=head3 get-edge-color
-
 
 =head2 Zooming
 
