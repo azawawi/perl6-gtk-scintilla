@@ -45,6 +45,13 @@ method insert-text(Int $pos, Str $text) {
 }
 
 #
+# SCI_APPENDTEXT(int length, const char *text)
+#
+method append-text(Str $text) {
+    gtk_scintilla_send_message_str($!gtk_widget, 2282, $text.chars, $text);
+}
+
+#
 # SCI_GETTEXTLENGTH => int
 #
 method get-text-length() returns Int {

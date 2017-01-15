@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 21 + @lines.elems * 2;
+plan 23 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -34,7 +34,14 @@ $editor.set-text($text);
 ok( $editor.get-text eq $text, "get and set text works" );
 ok( $editor.get-text-length eq $text.chars, "get-text-length works");
 
+# Test append-text
+my $text-at-the-end = "ABC\n";
+$editor.append-text("ABC\n");
+diag $editor.get-text.perl;
+ok( $editor.get-text.ends-with($text-at-the-end), ".append-text works" );
+
 # Test get-line-length and get-line return values
+$editor.set-text($text);
 my $num-lines = @lines.elems;
 for 0..@lines.elems - 1 -> $i {
     my $line = @lines[$i];
@@ -80,3 +87,11 @@ ok( $editor.get-text eq "", "redo works" );
 # After an empty-undo-buffer
 $editor.empty-undo-buffer;
 ok( !$editor.can-undo, "empty-undo-buffer works");
+
+$editor.clear-all;
+$editor.begin-undo-action;
+$editor.set-text("ABC\n");
+$editor.append-text("DEF\n");
+$editor.end-undo-action;
+$editor.undo;
+ok( $editor.get-text eq "", "begin and end undo action work");
