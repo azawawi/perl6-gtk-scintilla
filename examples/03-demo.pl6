@@ -14,7 +14,7 @@ use GTK::Scintilla;
 use GTK::Scintilla::Editor;
 
 sub MAIN() {
-    my $app = GTK::Simple::App.new(title => "GTK::Scintilla Demo");
+    my $app = GTK::Simple::App.new( title => "GTK::Scintilla Demo" );
 
     my $toolbar-vbox  = add-toolbar($app);
     my $menu-bar-vbox = add-menu-bar($app);
@@ -52,12 +52,12 @@ sub add-editor($app) {
 }
 
 sub add-menu-bar($app) {
-    my $file-menu-item = GTK::Simple::MenuItem.new(:label("File"));
+    my $file-menu-item = GTK::Simple::MenuItem.new( :label("File") );
     $file-menu-item.set-sub-menu(
         my $file-menu = GTK::Simple::Menu.new
     );
 
-    my $quit-menu-item = GTK::Simple::MenuItem.new(:label("Quit"));
+    my $quit-menu-item = GTK::Simple::MenuItem.new( :label("Quit") );
     $file-menu.append($quit-menu-item);
 
     my $menu-bar = GTK::Simple::MenuBar.new;
@@ -73,17 +73,25 @@ sub add-menu-bar($app) {
 sub add-toolbar($app) {
     my $toolbar = GTK::Simple::Toolbar.new;
     $toolbar.add-menu-item(
-        my $new-toolbar-button = GTK::Simple::MenuToolButton.new(:icon(GTK_STOCK_NEW))
+        my $new-toolbar-button = GTK::Simple::MenuToolButton.new(
+            :icon(GTK_STOCK_NEW)
+        )
     );
     $toolbar.add-menu-item(
-        my $open-toolbar-button = GTK::Simple::MenuToolButton.new(:icon(GTK_STOCK_OPEN))
+        my $open-toolbar-button = GTK::Simple::MenuToolButton.new(
+            :icon(GTK_STOCK_OPEN)
+        )
     );
     $toolbar.add-menu-item(
-        my $save-toolbar-button = GTK::Simple::MenuToolButton.new(:icon(GTK_STOCK_SAVE))
+        my $save-toolbar-button = GTK::Simple::MenuToolButton.new(
+            :icon(GTK_STOCK_SAVE)
+        )
     );
     $toolbar.add-separator;
     $toolbar.add-menu-item(
-        my $exit-toolbar-button = GTK::Simple::MenuToolButton.new(:icon(GTK_STOCK_QUIT))
+        my $exit-toolbar-button = GTK::Simple::MenuToolButton.new(
+            :icon(GTK_STOCK_QUIT)
+        )
     );
 
     $new-toolbar-button.clicked.tap: {

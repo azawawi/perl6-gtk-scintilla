@@ -7,7 +7,7 @@ use GTK::Simple::App;
 use GTK::Scintilla;
 use GTK::Scintilla::Editor;
 
-my $app = GTK::Simple::App.new(title => "Hello GTK + Scintilla!");
+my $app = GTK::Simple::App.new( title => "Hello GTK + Scintilla!" );
 
 my $editor = GTK::Scintilla::Editor.new;
 $editor.size-request(500, 300);

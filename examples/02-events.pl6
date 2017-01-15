@@ -9,16 +9,24 @@ use GTK::Simple::Button;
 use GTK::Scintilla;
 use GTK::Scintilla::Editor;
 
-my $app = GTK::Simple::App.new(title => "GTK::Scintilla Events Demo");
+my $app = GTK::Simple::App.new( title => "GTK::Scintilla Events Demo" );
 
 my $editor = GTK::Scintilla::Editor.new;
 $editor.size-request(500, 300);
 $app.set-content(GTK::Simple::VBox.new(
     $editor,
-    my $insert-text-top-button    = GTK::Simple::Button.new(:label("Insert Top")),
-    my $insert-text-bottom-button = GTK::Simple::Button.new(:label("Insert Bottom")),
-    my $zoom-in-button            = GTK::Simple::Button.new(:label("Zoom In")),
-    my $zoom-out-button           = GTK::Simple::Button.new(:label("Zoom Out")),
+    my $insert-text-top-button    = GTK::Simple::Button.new(
+        :label("Insert Top")
+    ),
+    my $insert-text-bottom-button = GTK::Simple::Button.new(
+        :label("Insert Bottom")
+    ),
+    my $zoom-in-button            = GTK::Simple::Button.new(
+        :label("Zoom In")
+    ),
+    my $zoom-out-button           = GTK::Simple::Button.new(
+        :label("Zoom Out")
+    ),
 ));
 
 $insert-text-top-button.clicked.tap: {
