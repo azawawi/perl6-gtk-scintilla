@@ -15,9 +15,9 @@ plan 23 + @lines.elems * 2;
 # Test version method
 my $version = GTK::Scintilla.version;
 say $version;
-ok( $version<major>  == 3, "Major version match" );
-ok( $version<minor>  == 7, "Minor version match" );
-ok( $version<patch>  == 2, "Patch version match" );
+ok( $version<major>  == 3,       "Major version match" );
+ok( $version<minor>  == 7,       "Minor version match" );
+ok( $version<patch>  == 2,       "Patch version match" );
 ok( $version<string> eq "3.7.2", "Version string match" );
 
 # Create GTK application
@@ -31,7 +31,7 @@ $app.set-content($editor);
 # Test set-text, get-text and get-text-length equality
 my $text = @lines.join("");
 $editor.set-text($text);
-ok( $editor.get-text eq $text, "get and set text works" );
+ok( $editor.get-text        eq $text,       "get and set text works" );
 ok( $editor.get-text-length eq $text.chars, "get-text-length works");
 
 # Test append-text
@@ -46,7 +46,7 @@ my $num-lines = @lines.elems;
 for 0..@lines.elems - 1 -> $i {
     my $line = @lines[$i];
     ok( $editor.get-line-length($i) == $line.chars, "get-line-length($i) works");
-    ok( $editor.get-line($i)        eq $line, "get-line($i) works");
+    ok( $editor.get-line($i)        eq $line,       "get-line($i) works");
 }
 
 # Test get-line-count
