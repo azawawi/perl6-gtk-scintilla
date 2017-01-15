@@ -118,6 +118,10 @@ method clear-all {
     return gtk_scintilla_send_message($!gtk_widget, SCI_CLEARALL, 0, 0);
 }
 
+method get-line-count {
+    return gtk_scintilla_send_message($!gtk_widget, SCI_GETLINECOUNT, 0, 0);
+}
+
 ##
 ##  Long line API
 ##

@@ -8,9 +8,9 @@ use GTK::Scintilla;
 use GTK::Scintilla::Editor;
 
 # Test data
-my @lines = [ "Line #0\n", "Line #1\n", "Line #2\n" ];
+my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 12 + @lines.elems * 2;
+plan 14 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -43,6 +43,9 @@ for 0..@lines.elems - 1 -> $i {
     ok( $editor.get-line($i) eq $line, "get-line($i) works");
 }
 
+# Test get-line-count
+ok($editor.get-line-count == $num-lines, "get-line-count works");
+
 # Test out-of-range indices for get-line-length and get-line
 ok($editor.get-line-length(-1) eq 0, "get-line(-1) must return zero");
 ok($editor.get-line(-1) eq "", "get-line(-1) must return empty string");
@@ -53,5 +56,6 @@ ok($editor.get-line($num-lines) eq "", "get-line($num-lines) must return empty a
 #$editor.set-save-point;
 
 $editor.clear-all;
-ok($editor.get-text-length == 0, "clear-all works");
-ok($editor.get-text eq "", "clear-all works");
+ok($editor.get-text-length == 0, "clear-all & get-text-length works");
+ok($editor.get-text eq "", "clear-all & get-text works");
+ok($editor.get-line-count == 1, "clear-all & get-line-count works");
