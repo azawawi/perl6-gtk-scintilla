@@ -73,5 +73,10 @@ use Modern::Perl;
 say "Events Demo";
 });
 
+printf("Line #1 length = %d\n", $editor.get-line-length(1));
+printf("Line #1 text = '%s'\n", $editor.get-line(1));
+
+$editor.set-save-point;
+
 $editor.show;
 $app.run;

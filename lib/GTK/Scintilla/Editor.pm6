@@ -50,6 +50,7 @@ method set-text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, SCI_SETTEXT, 0, $text);
 }
 
+
 #
 # SCI_GETTEXT(int length, char *text NUL-terminated) => int
 #
@@ -57,12 +58,56 @@ method get-text() returns Str {
     my $buffer-length = self.get-text-length + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
-    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETTEXT, $buffer-length, $buffer);
+    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETTEXT,
+        $buffer-length, $buffer);
     my $text = '';
     for 0..$buffer-length - 2 -> $i {
         $text ~= chr($buffer[$i]);
     }
     return $text;
+}
+
+#
+# SCI_SETSAVEPOINT()
+#
+# This message tells Scintilla that the current state of the document is
+# unmodified. This is usually done when the file is saved or loaded, hence the
+# name "save point".
+#
+method set-save-point() {
+    gtk_scintilla_send_message($!gtk_widget, SCI_SETSAVEPOINT, 0, 0);
+    return;
+}
+
+#
+# SCI_GETLINE(int line, char *text) → int
+#
+# This fills the buffer defined by text with the contents of the nominated line
+# (lines start at 0)
+#
+method get-line(Int $line) returns Str {
+    my $buffer-length = self.get-line-length($line) + 1;
+    my $buffer = CArray[uint8].new;
+    $buffer[$buffer-length - 1] = 0;
+    my $len = gtk_scintilla_send_message_carray($!gtk_widget, SCI_GETLINE,
+        $line, $buffer);
+    my $text = '';
+    for 0..$buffer-length - 2 -> $i {
+        $text ~= chr($buffer[$i]);
+    }
+    return $text;
+}
+
+#
+# SCI_LINELENGTH(int line) → int
+#
+# This returns the length of the line, including any line end characters. If
+# line is negative or beyond the last line in the document, the result is 0. If
+# you want the length of the line not including any end of line characters, use
+# SCI_GETLINEENDPOSITION(line) - SCI_POSITIONFROMLINE(line).
+#
+method get-line-length(Int $line) returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, SCI_LINELENGTH, $line, 0);
 }
 
 ##
