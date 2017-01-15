@@ -47,3 +47,6 @@ ok($editor.get-line-length(-1) eq 0, "get-line(-1) must return zero");
 ok($editor.get-line(-1) eq "", "get-line(-1) must return empty string");
 ok($editor.get-line-length($num-lines) eq 0, "get-line($num-lines) must return also zero");
 ok($editor.get-line($num-lines) eq "", "get-line($num-lines) must return empty also string");
+
+# TODO Test set-save-point
+#$editor.set-save-point;
