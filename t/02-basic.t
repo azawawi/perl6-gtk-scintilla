@@ -99,6 +99,7 @@ ok( $editor.get-text eq "", "redo works" );
 $editor.empty-undo-buffer;
 ok( !$editor.can-undo, "empty-undo-buffer works");
 
+# Test begin and undo action (aka transaction)
 $editor.clear-all;
 $editor.begin-undo-action;
 $editor.set-text("ABC\n");
