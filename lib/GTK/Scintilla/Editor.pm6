@@ -302,7 +302,8 @@ method get-line-length(Int $line) returns Int {
 # Unless the document is read-only, this deletes all the text.
 #
 method clear-all {
-    return gtk_scintilla_send_message($!gtk_widget, 2004, 0, 0);
+    gtk_scintilla_send_message($!gtk_widget, 2004, 0, 0);
+    return;
 }
 
 method get-line-count {
@@ -331,10 +332,11 @@ method get-edge-mode returns Int {
 #
 method set-edge-column(Int $column) {
     gtk_scintilla_send_message($!gtk_widget, 2361, $column, 0);
+    return;
 }
 
 method get-edge-column returns Int {
-    gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
 
 #
@@ -343,10 +345,11 @@ method get-edge-column returns Int {
 #
 method set-edge-color(Int $color) {
     gtk_scintilla_send_message($!gtk_widget, 2365, $color, 0);
+    return;
 }
 
 method get-edge-color returns Int {
-    gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
 
 ##
@@ -360,18 +363,21 @@ method get-edge-color returns Int {
 #
 method zoom-in {
     gtk_scintilla_send_message($!gtk_widget, 2333, 0, 0);
+    return;
 }
 
 method zoom-out {
     gtk_scintilla_send_message($!gtk_widget, 2334, 0, 0);
+    return;
 }
 
 method set-zoom(Int $zoom-in-points) {
     gtk_scintilla_send_message($!gtk_widget, 2373, $zoom-in-points, 0);
+    return;
 }
 
 method get-zoom returns Int {
-    gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
+    return gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
 }
 
 
