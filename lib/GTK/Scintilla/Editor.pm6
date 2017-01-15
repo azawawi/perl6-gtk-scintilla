@@ -1,11 +1,12 @@
 use v6;
 
-use GTK::Simple::Widget;
+use NativeCall;
 use GTK::Scintilla;
 use GTK::Scintilla::Raw;
-use NativeCall;
+use GTK::Simple::Widget;
 
 unit class GTK::Scintilla::Editor does GTK::Simple::Widget;
+
 
 submethod BUILD(Int $id = 0) {
     $!gtk_widget = gtk_scintilla_new;

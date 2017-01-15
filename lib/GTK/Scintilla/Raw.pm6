@@ -1,9 +1,9 @@
 
 use v6;
 
-unit module GTK::Scintilla::Raw;
-
 use NativeCall;
+
+unit module GTK::Scintilla::Raw;
 
 sub library {
     return ~%?RESOURCES{"libwidget.so"};
