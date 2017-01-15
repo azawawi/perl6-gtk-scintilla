@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 31 + @lines.elems * 2;
+plan 36 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -109,8 +109,6 @@ $editor.end-undo-action;
 $editor.undo;
 ok( $editor.get-text eq "", "begin and end undo action work");
 
-#TODO test cut, copy, clear and paste
-
 # Test selection
 {
     constant SELECTION-START = 1;
@@ -130,4 +128,27 @@ ok( $editor.get-text eq "", "begin and end undo action work");
     $editor.set-empty-selection(SELECTION-END);
     ok( $editor.get-selection-start == SELECTION-END &&
         $editor.get-selection-end   == SELECTION-END, "set-empty-selection works");
+}
+
+# Test set/get read only
+{
+    ok( !$editor.get-read-only, "By default the document is not read-only");
+    $editor.set-read-only(True);
+    ok( $editor.get-read-only,  "set/get read-only works");
+    $editor.set-read-only(False);
+}
+
+# Test cut, copy, clear and paste
+{
+    constant TEXT = "Hello world";
+
+    $editor.clear-all;
+    $editor.copy-text(TEXT);
+    $editor.paste;
+    ok( $editor.get-text, TEXT);
+
+    ok( $editor.can-paste, "can-paste is True on a non-readonly document");
+    $editor.set-read-only(True);
+    ok( !$editor.can-paste, "can-paste is False on a readonly document");
+    $editor.set-read-only(False);
 }

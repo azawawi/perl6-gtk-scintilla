@@ -130,8 +130,7 @@ method clear() {
 # SCI_CANPASTE → bool
 #
 method can-paste() {
-    gtk_scintilla_send_message($!gtk_widget, 2173, 0, 0);
-    return;
+    return gtk_scintilla_send_message($!gtk_widget, 2173, 0, 0) == 1;
 }
 
 #
@@ -145,7 +144,7 @@ method copy-range(Int $start, Int $end) {
 #
 # SCI_COPYTEXT(int length, const char *text)
 #
-method copy-text(Int $text) {
+method copy-text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2420, $text.chars, $text);
     return;
 }
@@ -272,6 +271,20 @@ method get-line(Int $line) returns Str {
     return $text;
 }
 
+#
+# SCI_SETREADONLY(bool readOnly)
+#
+method set-read-only(Bool $read-only) {
+    gtk_scintilla_send_message($!gtk_widget, 2171, $read-only ?? 1 !! 0, 0);
+    return;
+}
+
+#
+# SCI_GETREADONLY → bool
+#
+method get-read-only returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2140, 0, 0) == 1;
+}
 
 #
 # SCI_LINELENGTH(int line) → int
@@ -439,6 +452,7 @@ method add-undo-action(Int $token, Int $flags) {
     gtk_scintilla_send_message($!gtk_widget, 2560, $token, $flags);
     return;
 }
+
 
 =begin pod
 
