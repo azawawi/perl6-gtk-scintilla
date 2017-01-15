@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 27 + @lines.elems * 2;
+plan 28 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -78,8 +78,9 @@ ok($editor.get-text-length == 0,  "clear-all & get-text-length works");
 ok($editor.get-text        eq "", "clear-all & get-text works");
 ok($editor.get-line-count  == 1,  "clear-all & get-line-count works");
 
-#TODO test style-get-bold
-#TODO test style-set-bold
+# Test set/get bold style
+$editor.style-set-bold(0, True);
+ok( $editor.style-get-bold(0), "set, get bold works");
 
 # Before an undo
 ok( $editor.can-undo,     "can-undo is True");
