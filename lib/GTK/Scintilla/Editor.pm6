@@ -195,6 +195,85 @@ method get-zoom returns Int {
     gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
 }
 
+
+#
+# SCI_UNDO
+#
+method undo() {
+    gtk_scintilla_send_message($!gtk_widget, 2176, 0, 0);
+    return;
+}
+
+#
+# SCI_CANUNDO → bool
+#
+method can-undo returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2174, 0, 0) == 1;
+}
+
+
+#
+# SCI_EMPTYUNDOBUFFER
+#
+method empty-undo-buffer() {
+    gtk_scintilla_send_message($!gtk_widget, 2175, 0, 0);
+    return;
+}
+
+#
+# SCI_REDO
+#
+method redo() {
+    gtk_scintilla_send_message($!gtk_widget, 2011, 0, 0);
+    return;
+}
+
+#
+# SCI_CANREDO → bool
+#
+method can-redo returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2016, 0, 0) == 1;
+}
+
+#
+# SCI_SETUNDOCOLLECTION(bool collectUndo)
+#
+method set-undo-collection(Bool $collect-undo) {
+    gtk_scintilla_send_message($!gtk_widget, 2012, $collect-undo ?? 1 !! 0, 0);
+    return;
+}
+
+#
+# SCI_GETUNDOCOLLECTION → bool
+#
+method get-undo-collection returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2019, 0, 0) == 1;
+}
+
+#
+# SCI_BEGINUNDOACTION
+#
+method begin-undo-action {
+    gtk_scintilla_send_message($!gtk_widget, 2078, 0, 0);
+    return;
+}
+
+#
+# SCI_ENDUNDOACTION
+#
+method end-undo-action {
+    gtk_scintilla_send_message($!gtk_widget, 2079, 0, 0);
+    return;
+}
+
+#
+# SCI_ADDUNDOACTION(int token, int flags)
+#
+method add-undo-action(Int $token, Int $flags) {
+    gtk_scintilla_send_message($!gtk_widget, 2560, $token, $flags);
+    return;
+}
+
 =begin pod
 
 =head1 Name

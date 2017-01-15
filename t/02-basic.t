@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 14 + @lines.elems * 2;
+plan 20 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -31,7 +31,7 @@ $app.set-content($editor);
 # Test set-text, get-text and get-text-length equality
 my $text = @lines.join("");
 $editor.set-text($text);
-ok( $editor.get-text  eq $text, "get and set text works" );
+ok( $editor.get-text eq $text, "get and set text works" );
 ok( $editor.get-text-length eq $text.chars, "get-text-length works");
 
 # Test get-line-length and get-line return values
@@ -62,3 +62,12 @@ ok($editor.get-line-count == 1, "clear-all & get-line-count works");
 
 #TODO test style-get-bold
 #TODO test style-set-bold
+
+ok( $editor.can-undo, "can-undo is True");
+ok( not $editor.can-redo, "can-redo is False");
+$editor.undo;
+ok( $editor.can-undo, "can-undo is False");
+ok( $editor.can-redo, "can-redo is True");
+ok( $editor.get-text eq $text, "undo works" );
+$editor.redo;
+ok( $editor.get-text eq "", "redo works" );
