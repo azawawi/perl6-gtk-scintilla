@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 36 + @lines.elems * 2;
+plan 38 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -151,4 +151,12 @@ ok( $editor.get-text eq "", "begin and end undo action work");
     $editor.set-read-only(True);
     ok( !$editor.can-paste, "can-paste is False on a readonly document");
     $editor.set-read-only(False);
+}
+
+# Test get/set cursor
+{
+    ok( $editor.get-cursor == Normal, "By default, cursor is normal" );
+    $editor.set-cursor(Wait);
+    ok( $editor.get-cursor == Wait, "set/get cursor works" );
+    $editor.set-cursor(Normal);
 }

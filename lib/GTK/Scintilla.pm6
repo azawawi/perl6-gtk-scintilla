@@ -3,6 +3,13 @@ use v6;
 
 unit class GTK::Scintilla;
 
+enum CursorType is export (
+    Normal       => -1,
+    Arrow        => 2,
+    Wait         => 4,
+    ReverseArrow => 7
+);
+
 # SciLexer.h
 constant SCLEX_PERL is export = 6;
 #----

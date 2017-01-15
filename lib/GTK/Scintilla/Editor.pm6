@@ -453,6 +453,25 @@ method add-undo-action(Int $token, Int $flags) {
     return;
 }
 
+##
+## Cursor
+##
+
+#
+# SCI_SETCURSOR(int cursorType)
+#
+method set-cursor(CursorType $cursor-type) {
+    gtk_scintilla_send_message($!gtk_widget, 2386, Int($cursor-type), 0);
+    return;
+}
+
+#
+# SCI_GETCURSOR → int
+#
+method get-cursor returns CursorType {
+    my $cursor-type = gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0);
+    return CursorType($cursor-type);
+}
 
 =begin pod
 
