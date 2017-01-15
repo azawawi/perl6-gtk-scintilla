@@ -43,7 +43,8 @@ For more examples, please see the [examples](examples) folder.
 
 ## Documentation
 
-Please see the [GTK::Scintilla](doc/GTK-Scintilla-Editor.md) generated documentation.
+Please see the [GTK::Scintilla](doc/GTK-Scintilla-Editor.md) generated
+documentation.
 
 ## Installation
 
