@@ -7,14 +7,15 @@ use GTK::Simple::Widget;
 
 unit class GTK::Scintilla::Editor does GTK::Simple::Widget;
 
-
 submethod BUILD(Int $id = 0) {
     $!gtk_widget = gtk_scintilla_new;
     gtk_scintilla_set_id($!gtk_widget, $id);
+    return;
 }
 
 method style-clear-all {
     gtk_scintilla_send_message($!gtk_widget, 2050, 0, 0);
+    return;
 }
 
 method style-set-foreground(Int $style, Int $color) {
@@ -23,6 +24,7 @@ method style-set-foreground(Int $style, Int $color) {
 
 method style-set-bold(Int $style, Bool $bold) {
     gtk_scintilla_send_message($!gtk_widget, 2053, $style, $bold ?? 1 !! 0);
+    return;
 }
 
 method style-get-bold(Int $style) returns Bool {
@@ -31,6 +33,7 @@ method style-get-bold(Int $style) returns Bool {
 
 method set-lexer(Int $lexer) {
     gtk_scintilla_send_message($!gtk_widget, 4001, $lexer, 0);
+    return;
 }
 
 ##
@@ -42,6 +45,7 @@ method set-lexer(Int $lexer) {
 #
 method insert-text(Int $pos, Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2003, $pos, $text);
+    return;
 }
 
 #
@@ -49,6 +53,24 @@ method insert-text(Int $pos, Str $text) {
 #
 method append-text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2282, $text.chars, $text);
+    return;
+}
+
+#
+# SCI_DELETERANGE(int start, int lengthDelete)
+#
+method delete-range(Int $start, Int $length) {
+    gtk_scintilla_send_message($!gtk_widget, 2645, $start, $length);
+    return;
+}
+
+#
+# SCI_GETCHARAT(int pos) → int
+#
+method get-char-at(Int $position) returns Str {
+    my $ch = gtk_scintilla_send_message($!gtk_widget, 2007, $position, 0);
+    #TODO fire exception?
+    return $ch != 0 ?? chr($ch) !! "";
 }
 
 #
