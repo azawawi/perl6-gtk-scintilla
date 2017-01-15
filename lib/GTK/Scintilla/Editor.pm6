@@ -37,6 +37,60 @@ method set-lexer(Int $lexer) {
 }
 
 ##
+## Selection and information
+##
+
+#
+# SCI_SETSELECTIONSTART(int anchor)
+#
+method set-selection-start(Int $anchor) {
+    gtk_scintilla_send_message($!gtk_widget, 2142, $anchor, 0);
+    return;
+}
+
+#
+# SCI_GETSELECTIONSTART → position
+#
+method get-selection-start() returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, 2143, 0, 0);
+}
+
+#
+# SCI_SETSELECTIONEND(int caret)
+#
+method set-selection-end(Int $caret) {
+    gtk_scintilla_send_message($!gtk_widget, 2144, $caret, 0);
+    return;
+}
+
+#
+# SCI_GETSELECTIONEND → position
+#
+method get-selection-end returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, 2145, 0, 0);
+}
+
+#
+# SCI_SETEMPTYSELECTION(int caret)
+#
+# This removes any selection and sets the caret at caret. The caret is not
+# scrolled into view.
+#
+method set-empty-selection(Int $caret) {
+    gtk_scintilla_send_message($!gtk_widget, 2556, $caret, 0);
+    return;
+}
+
+#
+# SCI_SELECTALL
+#
+method select-all() {
+    gtk_scintilla_send_message($!gtk_widget, 2013, 0, 0);
+    return;
+}
+
+
+##
 ## Cut, copy and paste
 ##
 

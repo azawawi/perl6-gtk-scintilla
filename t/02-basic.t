@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 28 + @lines.elems * 2;
+plan 31 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -108,3 +108,26 @@ $editor.append-text("DEF\n");
 $editor.end-undo-action;
 $editor.undo;
 ok( $editor.get-text eq "", "begin and end undo action work");
+
+#TODO test cut, copy, clear and paste
+
+# Test selection
+{
+    constant SELECTION-START = 1;
+    constant SELECTION-END   = 5;
+
+    $editor.set-text($text);
+    $editor.set-selection-start(SELECTION-START);
+    $editor.set-selection-end(SELECTION-END);
+    ok( $editor.get-selection-start == SELECTION-START &&
+        $editor.get-selection-end   == SELECTION-END,
+        "set/get selection start/end works");
+
+    $editor.select-all;
+    ok( $editor.get-selection-start == 0 &&
+        $editor.get-selection-end   == $text.chars, "select-all works");
+
+    $editor.set-empty-selection(SELECTION-END);
+    ok( $editor.get-selection-start == SELECTION-END &&
+        $editor.get-selection-end   == SELECTION-END, "set-empty-selection works");
+}
