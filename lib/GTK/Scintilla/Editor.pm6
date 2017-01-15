@@ -334,19 +334,9 @@ method get-line-count {
 
 Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
 
-=end pod
-
-##
-##  Long line API
-##
-
-#
-# SCI_SETEDGEMODE(int edgeMode)
-# SCI_GETEDGEMODE
-#
-=begin pod
-
 =head3 set-edge-mode
+
+SCI_SETEDGEMODE(int edgeMode)
 
 =end pod
 method set-edge-mode(Int $edge-mode) {
@@ -357,18 +347,18 @@ method set-edge-mode(Int $edge-mode) {
 
 =head3 get-edge-mode
 
+SCI_GETEDGEMODE
+
 =end pod
 method get-edge-mode returns Int {
     gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0);
 }
 
-#
-# SCI_SETEDGECOLUMN(int column)
-# SCI_GETEDGECOLUMN
-#
 =begin pod
 
 =head3 set-edge-column
+
+SCI_SETEDGECOLUMN(int column)
 
 =end pod
 method set-edge-column(Int $column) {
@@ -380,18 +370,18 @@ method set-edge-column(Int $column) {
 
 =head3 get-edge-column
 
+SCI_GETEDGECOLUMN
+
 =end pod
 method get-edge-column returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
 
-#
-# SCI_SETEDGECOLOUR(int colour)
-# SCI_GETEDGECOLOUR
-#
 =begin pod
 
 =head3 set-edge-color
+
+SCI_SETEDGECOLOUR(int colour)
 
 =end pod
 method set-edge-color(Int $color) {
@@ -402,6 +392,8 @@ method set-edge-color(Int $color) {
 =begin pod
 
 =head3 get-edge-color
+
+SCI_GETEDGECOLOUR
 
 =end pod
 method get-edge-color returns Int {

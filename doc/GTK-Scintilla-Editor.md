@@ -6,7 +6,7 @@ GTK::Scintilla::Editor - GTK Scintilla Editor Widget
 Synopsis
 ========
 
-TODO Add Synopsis ection documentation
+TODO Add Synopsis section documentation
 
 Description
 ===========
@@ -23,15 +23,27 @@ Please see [here](http://www.scintilla.org/ScintillaDoc.html#LongLines).
 
 ### set-edge-mode
 
+SCI_SETEDGEMODE(int edgeMode)
+
 ### get-edge-mode
+
+SCI_GETEDGEMODE
 
 ### set-edge-column
 
+SCI_SETEDGECOLUMN(int column)
+
 ### get-edge-column
+
+SCI_GETEDGECOLUMN
 
 ### set-edge-color
 
+SCI_SETEDGECOLOUR(int colour)
+
 ### get-edge-color
+
+SCI_GETEDGECOLOUR
 
 Zooming
 -------
