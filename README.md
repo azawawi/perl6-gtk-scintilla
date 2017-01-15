@@ -65,6 +65,12 @@ To run tests:
 $ prove -ve "perl6 -Ilib"
 ```
 
+## See Also
+
+- [GTK::Simple](https://github.com/perl6/gtk-simple)
+- [Native Calling Interface](https://docs.perl6.org/language/nativecall.html)
+- [Scintilla Documentation](http://www.scintilla.org/ScintillaDoc.html).
+
 ## Author
 
 Ahmad M. Zawawi, [azawawi](https://github.com/azawawi/) on #perl6
