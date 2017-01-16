@@ -175,8 +175,76 @@ Scintilla incorporates a "zoom factor" that lets you make all the text in the do
 
 ### zoom-in
 
+Magnify the displayed text by increasing the sizes by 1 point.
+
 ### zoom-out
 
-### zoom
+Make the displayed text smaller by decreasing the sizes by 1 point.
 
-### get-zoom
+### zoom(Int $zoom-in-points)
+
+Set the zoom level. This number of points is added to the size of all fonts. It may be positive to magnify or negative to reduce.
+
+### zoom returns Int
+
+Returns the zoom level.
+
+Undo and Redo
+-------------
+
+Scintilla has multiple level undo and redo. It will continue to collect undoable actions until memory runs out. Scintilla saves actions that change the document. Scintilla does not save caret and selection movements, view scrolling and the like. Sequences of typing or deleting are compressed into single transactions to make it easier to undo and redo at a sensible level of detail. Sequences of actions can be combined into transactions that are undone as a unit. These sequences occur between `begin-undo-action` and `end-undo-action` messages. These transactions can be nested and only the top-level sequences are undone as units.
+
+### undo
+
+Undo one action in the undo history.
+
+### can-undo
+
+Returns whether there any undoable actions in the undo history or not.
+
+### empty-undo-buffer
+
+Delete the undo history.
+
+### redo
+
+Redo the next action on the undo history.
+
+### can-redo
+
+Returns whether they are any redoable actions in the undo history or not.
+
+### undo-collection(Bool $collect-undo)
+
+Enable/disable the collection of the undo history.
+
+### undo-collection returns Bool
+
+Returns whether the undo history is being collected or not.
+
+### begin-undo-action
+
+Start a sequence of actions that is undone and redone as one transaction. This can be nested.
+
+### end-undo-action
+
+End a sequence of actions that is undone and redone as one transaction.
+
+### add-undo-action
+
+Add a container action to the undo stack.
+
+Cursor
+------
+
+The following methods provide cursor-related API. CursorType is an enumeration and can be one of the following values:
+
+- Normal - Arrow - Wait - ReverseArrow
+
+### cursor(CursorType $cursor-type)
+
+Sets the cursor.
+
+### cursor returns CursorType
+
+Returns the cursor type. Initially it is `Normal`.

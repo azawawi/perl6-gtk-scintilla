@@ -597,133 +597,6 @@ multi method edge-color returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
 
-##
-## Zoom API
-##
-
-# SCI_ZOOMIN
-# SCI_ZOOMOUT
-# SCI_SETZOOM(int zoomInPoints)
-# SCI_GETZOOM
-#
-method zoom-in {
-    gtk_scintilla_send_message($!gtk_widget, 2333, 0, 0);
-    return;
-}
-
-method zoom-out {
-    gtk_scintilla_send_message($!gtk_widget, 2334, 0, 0);
-    return;
-}
-
-multi method zoom(Int $zoom-in-points) {
-    gtk_scintilla_send_message($!gtk_widget, 2373, $zoom-in-points, 0);
-    return;
-}
-
-multi method zoom returns Int {
-    return gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
-}
-
-
-#
-# SCI_UNDO
-#
-method undo {
-    gtk_scintilla_send_message($!gtk_widget, 2176, 0, 0);
-    return;
-}
-
-#
-# SCI_CANUNDO → bool
-#
-method can-undo returns Bool {
-    return gtk_scintilla_send_message($!gtk_widget, 2174, 0, 0) == 1;
-}
-
-
-#
-# SCI_EMPTYUNDOBUFFER
-#
-method empty-undo-buffer {
-    gtk_scintilla_send_message($!gtk_widget, 2175, 0, 0);
-    return;
-}
-
-#
-# SCI_REDO
-#
-method redo {
-    gtk_scintilla_send_message($!gtk_widget, 2011, 0, 0);
-    return;
-}
-
-#
-# SCI_CANREDO → bool
-#
-method can-redo returns Bool {
-    return gtk_scintilla_send_message($!gtk_widget, 2016, 0, 0) == 1;
-}
-
-#
-# SCI_SETUNDOCOLLECTION(bool collectUndo)
-#
-multi method undo-collection(Bool $collect-undo) {
-    gtk_scintilla_send_message($!gtk_widget, 2012, $collect-undo ?? 1 !! 0, 0);
-    return;
-}
-
-#
-# SCI_GETUNDOCOLLECTION → bool
-#
-multi method undo-collection returns Bool {
-    return gtk_scintilla_send_message($!gtk_widget, 2019, 0, 0) == 1;
-}
-
-#
-# SCI_BEGINUNDOACTION
-#
-method begin-undo-action {
-    gtk_scintilla_send_message($!gtk_widget, 2078, 0, 0);
-    return;
-}
-
-#
-# SCI_ENDUNDOACTION
-#
-method end-undo-action {
-    gtk_scintilla_send_message($!gtk_widget, 2079, 0, 0);
-    return;
-}
-
-#
-# SCI_ADDUNDOACTION(int token, int flags)
-#
-method add-undo-action(Int $token, Int $flags) {
-    gtk_scintilla_send_message($!gtk_widget, 2560, $token, $flags);
-    return;
-}
-
-##
-## Cursor
-##
-
-#
-# SCI_SETCURSOR(int cursorType)
-#
-multi method cursor(CursorType $cursor-type) {
-    gtk_scintilla_send_message($!gtk_widget, 2386, Int($cursor-type), 0);
-    return;
-}
-
-#
-# SCI_GETCURSOR → int
-#
-multi method cursor returns CursorType {
-    my $cursor-type = gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0);
-    return CursorType($cursor-type);
-}
-
 =begin pod
 
 =head2 Zooming
@@ -733,12 +606,225 @@ document larger or smaller in steps of one point. The displayed point size never
 goes below 2, whatever zoom factor you set. You can set zoom factors in the
 range -10 to +20 points.
 
+=end pod
+
+=begin pod
+
 =head3 zoom-in
+
+Magnify the displayed text by increasing the sizes by 1 point.
+
+=end pod
+method zoom-in {
+    gtk_scintilla_send_message($!gtk_widget, 2333, 0, 0);
+    return;
+}
+
+=begin pod
 
 =head3 zoom-out
 
-=head3 zoom
-
-=head3 get-zoom
+Make the displayed text smaller by decreasing the sizes by 1 point.
 
 =end pod
+method zoom-out {
+    gtk_scintilla_send_message($!gtk_widget, 2334, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 zoom(Int $zoom-in-points)
+
+Set the zoom level. This number of points is added to the size of all fonts. It
+may be positive to magnify or negative to reduce.
+
+=end pod
+multi method zoom(Int $zoom-in-points) {
+    gtk_scintilla_send_message($!gtk_widget, 2373, $zoom-in-points, 0);
+    return;
+}
+
+=begin pod
+
+=head3 zoom returns Int
+
+Returns the zoom level.
+
+=end pod
+multi method zoom returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
+}
+
+=begin pod
+
+=head2 Undo and Redo
+
+Scintilla has multiple level undo and redo. It will continue to collect undoable
+actions until memory runs out. Scintilla saves actions that change the document.
+Scintilla does not save caret and selection movements, view scrolling and the
+like. Sequences of typing or deleting are compressed into single transactions to
+make it easier to undo and redo at a sensible level of detail. Sequences of
+actions can be combined into transactions that are undone as a unit. These
+sequences occur between C<begin-undo-action> and C<end-undo-action> messages.
+These transactions can be nested and only the top-level sequences are undone as
+units.
+
+=end pod
+
+=begin pod
+
+=head3 undo
+
+Undo one action in the undo history.
+
+=end pod
+method undo {
+    gtk_scintilla_send_message($!gtk_widget, 2176, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 can-undo
+
+Returns whether there any undoable actions in the undo history or not.
+
+=end pod
+method can-undo returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2174, 0, 0) == 1;
+}
+
+
+=begin pod
+
+=head3 empty-undo-buffer
+
+Delete the undo history.
+
+=end pod
+method empty-undo-buffer {
+    gtk_scintilla_send_message($!gtk_widget, 2175, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 redo
+
+Redo the next action on the undo history.
+
+=end pod
+method redo {
+    gtk_scintilla_send_message($!gtk_widget, 2011, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 can-redo
+
+Returns whether they are any redoable actions in the undo history or not.
+
+=end pod
+method can-redo returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2016, 0, 0) == 1;
+}
+
+=begin pod
+
+=head3 undo-collection(Bool $collect-undo)
+
+Enable/disable the collection of the undo history.
+
+=end pod
+multi method undo-collection(Bool $collect-undo) {
+    gtk_scintilla_send_message($!gtk_widget, 2012, $collect-undo ?? 1 !! 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 undo-collection returns Bool
+
+Returns whether the undo history is being collected or not.
+
+=end pod
+multi method undo-collection returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2019, 0, 0) == 1;
+}
+
+=begin pod
+
+=head3 begin-undo-action
+
+Start a sequence of actions that is undone and redone as one transaction. This
+can be nested.
+
+=end pod
+method begin-undo-action {
+    gtk_scintilla_send_message($!gtk_widget, 2078, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 end-undo-action
+
+End a sequence of actions that is undone and redone as one transaction.
+
+=end pod
+method end-undo-action {
+    gtk_scintilla_send_message($!gtk_widget, 2079, 0, 0);
+    return;
+}
+
+=begin pod
+
+=head3 add-undo-action
+
+Add a container action to the undo stack.
+
+=end pod
+method add-undo-action(Int $token, Int $flags) {
+    gtk_scintilla_send_message($!gtk_widget, 2560, $token, $flags);
+    return;
+}
+
+=begin pod
+
+=head2 Cursor
+
+The following methods provide cursor-related API. CursorType is an enumeration
+and can be one of the following values:
+
+- Normal
+- Arrow
+- Wait
+- ReverseArrow
+
+=end pod
+
+=begin pod
+
+=head3 cursor(CursorType $cursor-type)
+
+Sets the cursor.
+
+=end pod
+multi method cursor(CursorType $cursor-type) {
+    gtk_scintilla_send_message($!gtk_widget, 2386, Int($cursor-type), 0);
+    return;
+}
+
+=begin pod
+
+=head3 cursor returns CursorType
+
+Returns the cursor type. Initially it is C<Normal>.
+
+=end pod
+multi method cursor returns CursorType {
+    my $cursor-type = gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0);
+    return CursorType($cursor-type);
+}
