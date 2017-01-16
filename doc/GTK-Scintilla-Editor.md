@@ -47,7 +47,7 @@ GTK::Scintilla is a [GTK::Simple](GTK::Simple) widget that provides advanced sou
 
   * [Padre (Perl IDE)](http://padre.perlide.org)
 
-  * SciTE (cross-platform, developed by the same author)|http://www.scintilla.org/SciTE.html)
+  * [SciTE (cross-platform, developed by the same author)](http://www.scintilla.org/SciTE.html)
 
 Methods
 =======

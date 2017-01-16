@@ -54,7 +54,7 @@ L<Scintilla|http://scintilla.org> by Neil Hodgson et al:
 =item L<Geany (cross-platform)|https://www.geany.org>
 =item L<Notepad++ (Windows)|https://notepad-plus-plus.org>
 =item L<Padre (Perl IDE)|http://padre.perlide.org>
-=item SciTE (cross-platform, developed by the same author)|http://www.scintilla.org/SciTE.html)
+=item L<SciTE (cross-platform, developed by the same author)|http://www.scintilla.org/SciTE.html>
 
 =head1 Methods
 
