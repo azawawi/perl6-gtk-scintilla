@@ -210,6 +210,18 @@ method append-text(Str $text) {
     return;
 }
 
+=begin pod
+
+=head3 add-text(Str $text)
+
+Add text to the document at current position.
+
+=end pod
+method add-text(Str $text) {
+    gtk_scintilla_send_message_str($!gtk_widget, 2001, $text.chars, $text);
+    return;
+}
+
 #
 # SCI_DELETERANGE(int start, int lengthDelete)
 #

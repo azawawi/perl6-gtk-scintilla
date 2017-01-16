@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 38 + @lines.elems * 2;
+plan 39 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -35,9 +35,22 @@ ok( $editor.text        eq $text,       "get and set text works" );
 ok( $editor.text-length eq $text.chars, "text-length works");
 
 # Test append-text
-my $text-at-the-end = "ABC\n";
-$editor.append-text("ABC\n");
-ok( $editor.text.ends-with($text-at-the-end), ".append-text works" );
+{
+    constant TEXT = "XYZ\n";
+    $editor.text($text);
+    $editor.append-text(TEXT);
+    ok( $editor.text.ends-with(TEXT), ".append-text works" );
+}
+
+# Test add-text
+{
+    constant TEXT = "ABC\n";
+    $editor.text($text);
+    $editor.add-text(TEXT);
+    $editor.add-text("\n");
+    diag $editor.text.perl;
+    ok( $editor.text eq (TEXT ~ "\n" ~ $text), ".add-text works" );
+}
 
 # Test delete-range
 $editor.text($text);
