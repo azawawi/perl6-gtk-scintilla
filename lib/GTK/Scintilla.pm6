@@ -10,6 +10,13 @@ enum CursorType is export (
     ReverseArrow => 7
 );
 
+enum EdgeMode is export (
+    None         => 0,
+    Line         => 1,
+    Background   => 2,
+    MultiLine    => 3
+);
+
 # SciLexer.h
 constant SCLEX_PERL is export = 6;
 #----

@@ -529,35 +529,41 @@ multi method line-count {
 =head2 Long lines
 
 You can choose to mark lines that exceed a given length by drawing a vertical
-line or by colouring the background of characters that exceed the set length.
+line or by coloring the background of characters that exceed the set length.
 
 =end pod
 
 =begin pod
 
-=head3 edge-mode
+=head3 edge-mode(EdgeMode $mode)
+
+Sets the edge highlight mode. The edge may be displayed by a line
+(C<Line>/C<MultiLine>) or by highlighting text that goes beyond it
+(C<Background>) or not displayed at all (C<None>).
 
 =end pod
-multi method edge-mode(Int $edge-mode) {
-    gtk_scintilla_send_message($!gtk_widget, 2363, $edge-mode, 0);
+multi method edge-mode(EdgeMode $mode) {
+    gtk_scintilla_send_message($!gtk_widget, 2363, $mode, 0);
+    return;
 }
 
 =begin pod
 
-=head3 edge-mode
+=head3 edge-mode returns EdgeMode
+
+Returns the edge highlight mode.
 
 =end pod
-multi method edge-mode returns Int {
-    gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0);
+multi method edge-mode returns EdgeMode {
+    return EdgeMode(gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0));
 }
 
-#
-# SCI_SETEDGECOLUMN(int column)
-# SCI_GETEDGECOLUMN
-#
 =begin pod
 
-=head3 edge-column
+=head3 edge-column(Int $column)
+
+Set the column number of the edge. If text goes past the edge then it is
+highlighted.
 
 =end pod
 multi method edge-column(Int $column) {
@@ -567,20 +573,20 @@ multi method edge-column(Int $column) {
 
 =begin pod
 
-=head3 edge-column
+=head3 edge-column returns Int
+
+Returns the column number which text should be kept within.
 
 =end pod
 multi method edge-column returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
 
-#
-# SCI_SETEDGECOLOUR(int colour)
-# SCI_GETEDGECOLOUR
-#
 =begin pod
 
-=head3 edge-color
+=head3 edge-color(Int $color)
+
+Sets the color used in edge indication.
 
 =end pod
 multi method edge-color(Int $color) {
@@ -590,7 +596,9 @@ multi method edge-color(Int $color) {
 
 =begin pod
 
-=head3 get-edge-color
+=head3 edge-color returns Int
+
+Returns the color used in edge indication.
 
 =end pod
 multi method edge-color returns Int {
@@ -795,25 +803,25 @@ method add-undo-action(Int $token, Int $flags) {
 
 =head2 Cursor
 
-The following methods provide cursor-related API. CursorType is an enumeration
-and can be one of the following values:
+The following methods provide cursor-related API. C<CursorType> is an
+enumeration and can be one of the following values:
 
-- Normal
-- Arrow
-- Wait
-- ReverseArrow
+=item Normal
+=item Arrow
+=item Wait
+=item ReverseArrow
 
 =end pod
 
 =begin pod
 
-=head3 cursor(CursorType $cursor-type)
+=head3 cursor(CursorType $type)
 
-Sets the cursor.
+Sets the cursor type.
 
 =end pod
-multi method cursor(CursorType $cursor-type) {
-    gtk_scintilla_send_message($!gtk_widget, 2386, Int($cursor-type), 0);
+multi method cursor(CursorType $type) {
+    gtk_scintilla_send_message($!gtk_widget, 2386, Int($type), 0);
     return;
 }
 
@@ -825,6 +833,5 @@ Returns the cursor type. Initially it is C<Normal>.
 
 =end pod
 multi method cursor returns CursorType {
-    my $cursor-type = gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0);
-    return CursorType($cursor-type);
+    return CursorType(gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0));
 }

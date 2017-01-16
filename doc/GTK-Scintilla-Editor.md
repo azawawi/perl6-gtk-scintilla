@@ -154,19 +154,31 @@ Delete all text in the document unless the document is read-only.
 Long lines
 ----------
 
-You can choose to mark lines that exceed a given length by drawing a vertical line or by colouring the background of characters that exceed the set length.
+You can choose to mark lines that exceed a given length by drawing a vertical line or by coloring the background of characters that exceed the set length.
 
-### edge-mode
+### edge-mode(EdgeMode $mode)
 
-### edge-mode
+Sets the edge highlight mode. The edge may be displayed by a line (`Line`/`MultiLine`) or by highlighting text that goes beyond it (`Background`) or not displayed at all (`None`).
 
-### edge-column
+### edge-mode returns EdgeMode
 
-### edge-column
+Returns the edge highlight mode.
 
-### edge-color
+### edge-column(Int $column)
 
-### get-edge-color
+Set the column number of the edge. If text goes past the edge then it is highlighted.
+
+### edge-column returns Int
+
+Returns the column number which text should be kept within.
+
+### edge-color(Int $color)
+
+Sets the color used in edge indication.
+
+### edge-color returns Int
+
+Returns the color used in edge indication.
 
 Zooming
 -------
@@ -237,13 +249,19 @@ Add a container action to the undo stack.
 Cursor
 ------
 
-The following methods provide cursor-related API. CursorType is an enumeration and can be one of the following values:
+The following methods provide cursor-related API. `CursorType` is an enumeration and can be one of the following values:
 
-- Normal - Arrow - Wait - ReverseArrow
+  * Normal
 
-### cursor(CursorType $cursor-type)
+  * Arrow
 
-Sets the cursor.
+  * Wait
+
+  * ReverseArrow
+
+### cursor(CursorType $type)
+
+Sets the cursor type.
 
 ### cursor returns CursorType
 

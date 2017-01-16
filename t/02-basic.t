@@ -8,7 +8,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 46 + @lines.elems * 2;
+plan 50 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -189,4 +189,20 @@ ok( $editor.text eq "", "begin and end undo action work");
     $editor.cursor(Wait);
     ok( $editor.cursor == Wait, "set/get cursor works" );
     $editor.cursor(Normal);
+}
+
+# Test edge-mode
+{
+    ok( $editor.edge-mode == None, "By default edge mode is None" );
+    $editor.edge-mode(Line);
+    ok( $editor.edge-mode == Line, "edge mode getter, setter works" );
+    $editor.edge-mode(None);
+}
+
+# Test edge-column
+{
+    constant EDGE_COLUMN = 78;
+    ok( $editor.edge-column == 0,         "By default edge column is zero" );
+    $editor.edge-column(EDGE_COLUMN);
+    ok( $editor.edge-column == EDGE_COLUMN, "edge column getter, setter works" );
 }
