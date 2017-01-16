@@ -319,16 +319,28 @@ multi method text returns Str {
     return $text;
 }
 
-#
-# SCI_SETSAVEPOINT()
-#
-# This message tells Scintilla that the current state of the document is
-# unmodified. This is usually done when the file is saved or loaded, hence the
-# name "save point".
-#
-multi method save-point {
+=begin pod
+
+=head save-point
+
+Remember the current position in the undo history as the position at which the
+document was saved.
+
+=end pod
+method save-point {
     gtk_scintilla_send_message($!gtk_widget, 2014, 0, 0);
     return;
+}
+
+=begin pod
+
+=head3 modified
+
+Returns whether the document is different from when it was last saved or not.
+
+=end pod
+method modified returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2159, 0, 0) == 1;
 }
 
 #

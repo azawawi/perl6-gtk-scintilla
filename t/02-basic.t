@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 43 + @lines.elems * 2;
+plan 46 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -48,7 +48,6 @@ ok( $editor.text-length eq $text.chars, "text-length works");
     $editor.text($text);
     $editor.add-text(TEXT);
     $editor.add-text("\n");
-    diag $editor.text.perl;
     ok( $editor.text eq (TEXT ~ "\n" ~ $text), ".add-text works" );
 }
 
@@ -88,8 +87,15 @@ ok($editor.line(-1)                eq "", "line(-1) must return empty string");
 ok($editor.line-length($num-lines) eq 0,  "line($num-lines) must return also zero");
 ok($editor.line($num-lines)        eq "", "line($num-lines) must return also empty string");
 
-# TODO Test save-point
-#$editor.save-point;
+# Test save-point and modified
+{
+    $editor.text($text);
+    ok( $editor.modified,     ".modified is true after a replace text operation" );
+    $editor.save-point;
+    ok( not $editor.modified, ".modified is false after a save point" );
+    $editor.text($text);
+    ok( $editor.modified,     ".modified is true again after a replace text operation" );
+}
 
 # Test current-pos
 {
