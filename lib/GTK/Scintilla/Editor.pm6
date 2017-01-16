@@ -47,12 +47,14 @@ GTK::Scintilla::Editor - GTK Scintilla Editor Widget
 
 =head1 Description
 
-Scintilla is a free open source library that provides a text editing component
-function, with an emphasis on advanced features for source code editing. SciTE
-(cross-platform, developed by the same author), Geany (cross-platform),
-Notepad++ (Windows), Programmer's Notepad (Windows) and Notepad2 (Windows) are
-examples of standalone text editors based on Scintilla. Padre (Perl IDE) is also
-based on Scintilla.
+GTK::Scintilla is a L<GTK::Simple> widget that provides advanced source code
+editing features. Some examples of text editors that are based on
+L<Scintilla|http://scintilla.org> by Neil Hodgson et al:
+
+=item L<Geany (cross-platform)|https://www.geany.org>
+=item L<Notepad++ (Windows)|https://notepad-plus-plus.org>
+=item L<Padre (Perl IDE)|http://padre.perlide.org>
+=item SciTE (cross-platform, developed by the same author)|http://www.scintilla.org/SciTE.html)
 
 =head1 Methods
 
