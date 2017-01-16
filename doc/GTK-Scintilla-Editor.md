@@ -53,6 +53,30 @@ Scintilla maintains a selection that stretches between two points, the anchor an
 
 Returns whether the document is different from when it was last saved or not.
 
+### selection-start(Int $anchor)
+
+Sets the position that starts the selection. This becomes the anchor.
+
+### selection-start returns Int
+
+Returns the position at the start of the selection.
+
+### selection-end(Int $caret)
+
+Sets the position that ends the selection. This becomes the caret.
+
+### selection-end returns Int
+
+Returns the position at the end of the selection.
+
+### empty-selection(Int $caret)
+
+Sets the caret to a position, while removing any existing selection. The caret is not scrolled into view.
+
+### select-all
+
+Select all the text in the document.
+
 Cut, copy and paste
 -------------------
 
@@ -147,9 +171,29 @@ Returns all the text in the document.
 
 Remember the current position in the undo history as the position at which the document was saved.
 
+### line(Int $line) returns Str
+
+Returns the line string of the zero-based line number.
+
+### read-only(Bool $enabled)
+
+Enable/Disable read-only mode.
+
+### read-only returns Bool
+
+Returns whether the document is in read-only mode or not.
+
+### line-length(Int $line) returns Int
+
+Returns how many characters are on a line including end of line characters. The line number is zero-based.
+
 ### clear-all
 
 Delete all text in the document unless the document is read-only.
+
+### line-count returns Int
+
+Returns the number of lines in the document. There is always at least one.
 
 Long lines
 ----------

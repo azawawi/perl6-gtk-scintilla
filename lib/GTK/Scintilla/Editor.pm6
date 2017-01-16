@@ -87,6 +87,8 @@ multi method lexer(Int $lexer) {
     return;
 }
 
+################################################################################
+
 =begin pod
 
 =head2 Selection and information
@@ -112,59 +114,78 @@ method modified returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2159, 0, 0) == 1;
 }
 
-#
-# SCI_SETSELECTIONSTART(int anchor)
-#
+=begin pod
+
+=head3 selection-start(Int $anchor)
+
+Sets the position that starts the selection. This becomes the anchor.
+
+=end pod
 multi method selection-start(Int $anchor) {
     gtk_scintilla_send_message($!gtk_widget, 2142, $anchor, 0);
     return;
 }
 
-#
-# SCI_GETSELECTIONSTART → position
-#
+=begin pod
+
+=head3 selection-start returns Int
+
+Returns the position at the start of the selection.
+
+=end pod
 multi method selection-start returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2143, 0, 0);
 }
 
-#
-# SCI_SETSELECTIONEND(int caret)
-#
+=begin pod
+
+=head3 selection-end(Int $caret)
+
+Sets the position that ends the selection. This becomes the caret.
+
+=end pod
 multi method selection-end(Int $caret) {
     gtk_scintilla_send_message($!gtk_widget, 2144, $caret, 0);
     return;
 }
 
-#
-# SCI_GETSELECTIONEND → position
-#
+=begin pod
+
+=head3 selection-end returns Int
+
+Returns the position at the end of the selection.
+
+=end pod
 multi method selection-end returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2145, 0, 0);
 }
 
-#
-# SCI_SETEMPTYSELECTION(int caret)
-#
-# This removes any selection and sets the caret at caret. The caret is not
-# scrolled into view.
-#
+=begin pod
+
+=head3 empty-selection(Int $caret)
+
+Sets the caret to a position, while removing any existing selection. The caret
+is not scrolled into view.
+
+=end pod
 multi method empty-selection(Int $caret) {
     gtk_scintilla_send_message($!gtk_widget, 2556, $caret, 0);
     return;
 }
 
-#
-# SCI_SELECTALL
-#
+=begin pod
+
+=head3 select-all
+
+Select all the text in the document.
+
+=end pod
 method select-all {
     gtk_scintilla_send_message($!gtk_widget, 2013, 0, 0);
     return;
 }
 
-
-##
-## Cut, copy and paste
-##
+################################################################################
 
 =begin pod
 
@@ -291,6 +312,8 @@ Returns whether convert-on-paste for line endings is enabled or disabled.
 multi method paste-convert-endings returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2468, 0, 0) == 1;
 }
+
+################################################################################
 
 =begin pod
 
@@ -462,12 +485,13 @@ method save-point {
     return;
 }
 
-#
-# SCI_GETLINE(int line, char *text) → int
-#
-# This fills the buffer defined by text with the contents of the nominated line
-# (lines start at 0)
-#
+=begin pod
+
+=head3 line(Int $line) returns Str
+
+Returns the line string of the zero-based line number.
+
+=end pod
 multi method line(Int $line) returns Str {
     my $buffer-length = self.line-length($line) + 1;
     my $buffer = CArray[uint8].new;
@@ -481,30 +505,38 @@ multi method line(Int $line) returns Str {
     return $text;
 }
 
-#
-# SCI_SETREADONLY(bool readOnly)
-#
-multi method read-only(Bool $read-only) {
-    gtk_scintilla_send_message($!gtk_widget, 2171, $read-only ?? 1 !! 0, 0);
+=begin pod
+
+=head3 read-only(Bool $enabled)
+
+Enable/Disable read-only mode.
+
+=end pod
+multi method read-only(Bool $enabled) {
+    gtk_scintilla_send_message($!gtk_widget, 2171, $enabled ?? 1 !! 0, 0);
     return;
 }
 
-#
-# SCI_GETREADONLY → bool
-#
+=begin pod
+
+=head3 read-only returns Bool
+
+Returns whether the document is in read-only mode or not.
+
+=end pod
 multi method read-only returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2140, 0, 0) == 1;
 }
 
-#
-# SCI_LINELENGTH(int line) → int
-#
-# This returns the length of the line, including any line end characters. If
-# line is negative or beyond the last line in the document, the result is 0. If
-# you want the length of the line not including any end of line characters, use
-# SCI_GETLINEENDPOSITION(line) - SCI_POSITIONFROMLINE(line).
-#
-multi method line-length(Int $line) returns Int {
+=begin pod
+
+=head3 line-length(Int $line) returns Int
+
+Returns how many characters are on a line including end of line characters. The
+line number is zero-based.
+
+=end pod
+method line-length(Int $line) returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2350, $line, 0);
 }
 
@@ -520,9 +552,18 @@ method clear-all {
     return;
 }
 
-multi method line-count {
+=begin pod
+
+=head3 line-count returns Int
+
+Returns the number of lines in the document. There is always at least one.
+
+=end pod
+multi method line-count returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2154, 0, 0);
 }
+
+##----------------------------------------------------------------------------##
 
 =begin pod
 
@@ -605,6 +646,8 @@ multi method edge-color returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
 
+################################################################################
+
 =begin pod
 
 =head2 Zooming
@@ -663,6 +706,8 @@ Returns the zoom level.
 multi method zoom returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
 }
+
+################################################################################
 
 =begin pod
 
@@ -798,6 +843,8 @@ method add-undo-action(Int $token, Int $flags) {
     gtk_scintilla_send_message($!gtk_widget, 2560, $token, $flags);
     return;
 }
+
+################################################################################
 
 =begin pod
 
