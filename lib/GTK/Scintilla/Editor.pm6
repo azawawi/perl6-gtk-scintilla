@@ -256,21 +256,52 @@ method length() returns Int {
 #
 # SCI_GETTEXTLENGTH => int
 #
-multi method text-length() returns Int {
+multi method text-length returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2183, 0, 0);
 }
 
-#
-# SCI_SETTEXT(<unused>, const char *text)
-#
-multi method text(Str $text) {
-    gtk_scintilla_send_message_str($!gtk_widget, 2181, 0, $text);
+=begin pod
+
+=head3 current-pos
+
+Returns the position of the caret.
+
+=end pod
+multi method current-pos returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, 2008, 0, 0);
 }
 
+=begin pod
 
-#
-# SCI_GETTEXT(int length, char *text NUL-terminated) => int
-#
+=head3 current-pos(Int $caret)
+
+Sets the position of the caret.
+
+=end pod
+multi method current-pos(Int $caret) {
+    gtk_scintilla_send_message($!gtk_widget, 2141, $caret, 0);
+    return;
+}
+
+=begin pod
+
+=head3 text(Str $text)
+
+Replace the contents of the document with the argument text.
+
+=end pod
+multi method text(Str $text) {
+    gtk_scintilla_send_message_str($!gtk_widget, 2181, 0, $text);
+    return;
+}
+
+=begin pod
+
+=head3 text()
+
+Returns all the text in the document.
+
+=end pod
 multi method text() returns Str {
     my $buffer-length = self.text-length + 1;
     my $buffer = CArray[uint8].new;

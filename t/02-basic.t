@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 41 + @lines.elems * 2;
+plan 43 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -90,6 +90,14 @@ ok($editor.line($num-lines)        eq "", "line($num-lines) must return also emp
 
 # TODO Test save-point
 #$editor.save-point;
+
+# Test current-pos
+{
+    $editor.text($text);
+    ok( $editor.current-pos == 0, "By default current caret position is zero");
+    $editor.current-pos(5);
+    ok( $editor.current-pos == 5, "current-pos setter/getter works");
+}
 
 $editor.clear-all;
 ok($editor.text-length == 0,  "clear-all & text-length works");
