@@ -15,11 +15,44 @@ GTK::Scintilla::Editor - GTK Scintilla Editor Widget
 
 =head1 Synopsis
 
-TODO Add Synopsis section documentation
+    use v6;
+
+    use GTK::Simple::App;
+    use GTK::Scintilla;
+    use GTK::Scintilla::Editor;
+
+    my $app = GTK::Simple::App.new( title => "Hello GTK + Scintilla!" );
+
+    my $editor = GTK::Scintilla::Editor.new;
+    $editor.size-request(500, 300);
+    $app.set-content($editor);
+
+    $editor.style-clear-all;
+    $editor.lexer(SCLEX_PERL);
+    $editor.style-foreground( SCE_PL_COMMENTLINE, 0x008000 );
+    $editor.style-foreground( SCE_PL_POD        , 0x008000 );
+    $editor.style-foreground( SCE_PL_NUMBER     , 0x808000 );
+    $editor.style-foreground( SCE_PL_WORD       , 0x800000 );
+    $editor.style-foreground( SCE_PL_STRING     , 0x800080 );
+    $editor.style-foreground( SCE_PL_OPERATOR   , 1 );
+    $editor.text(q{
+    # A Perl comment
+    use Modern::Perl;
+
+    say "Hello world";
+    });
+
+    $editor.show;
+    $app.run;
 
 =head1 Description
 
-TODO Add Description section documentation
+Scintilla is a free open source library that provides a text editing component
+function, with an emphasis on advanced features for source code editing. SciTE
+(cross-platform, developed by the same author), Geany (cross-platform),
+Notepad++ (Windows), Programmer's Notepad (Windows) and Notepad2 (Windows) are
+examples of standalone text editors based on Scintilla. Padre (Perl IDE) is also
+based on Scintilla.
 
 =head1 Methods
 
@@ -54,9 +87,30 @@ multi method lexer(Int $lexer) {
     return;
 }
 
-##
-## Selection and information
-##
+=begin pod
+
+=head2 Selection and information
+
+Scintilla maintains a selection that stretches between two points, the anchor
+and the current position. If the anchor and the current position are the same,
+there is no selected text. Positions in the document range from 0 (before the
+first character), to the document size (after the last character). If you use
+messages, there is nothing to stop you setting a position that is in the middle
+of a CRLF pair, or in the middle of a 2 byte character. However, keyboard
+commands will not move the caret into such positions.
+
+=end pod
+
+=begin pod
+
+=head3 modified
+
+Returns whether the document is different from when it was last saved or not.
+
+=end pod
+method modified returns Bool {
+    return gtk_scintilla_send_message($!gtk_widget, 2159, 0, 0) == 1;
+}
 
 #
 # SCI_SETSELECTIONSTART(int anchor)
@@ -112,87 +166,163 @@ method select-all {
 ## Cut, copy and paste
 ##
 
-#
-# SCI_CUT
-#
+=begin pod
+
+=head2 Cut, copy and paste
+
+The following methods provide clipboard-related operations.
+
+=end pod
+
+=begin pod
+
+=head3 cut
+
+Cut the selection to the clipboard.
+
+=end pod
 method cut {
     gtk_scintilla_send_message($!gtk_widget, 2177, 0, 0);
     return;
 }
 
-#
-# SCI_COPY
-#
+=begin pod
+
+=head3 copy
+
+Copy the selection to the clipboard.
+
+=end pod
 method copy {
     gtk_scintilla_send_message($!gtk_widget, 2178, 0, 0);
     return;
 }
 
-#
-# SCI_PASTE
-#
+=begin pod
+
+=head3 paste
+
+Paste the contents of the clipboard into the document replacing the selection.
+
+=end pod
 method paste {
     gtk_scintilla_send_message($!gtk_widget, 2179, 0, 0);
     return;
 }
 
-#
-# SCI_CLEAR
-#
+=begin pod
+
+=head3 clear
+
+Clear the selection.
+
+=end pod
 method clear {
     gtk_scintilla_send_message($!gtk_widget, 2180, 0, 0);
     return;
 }
 
-#
-# SCI_CANPASTE → bool
-#
+=begin pod
+
+=head3 can-paste
+
+Returns whether a paste will succeed or not.
+
+=end pod
 method can-paste {
     return gtk_scintilla_send_message($!gtk_widget, 2173, 0, 0) == 1;
 }
 
-#
-# SCI_COPYRANGE(int start, int end)
-#
+=begin pod
+
+=head3 copy-range(Int $start, Int $end)
+
+Copy a range of text to the clipboard. Positions are clipped into the document.
+
+=end pod
 method copy-range(Int $start, Int $end) {
     gtk_scintilla_send_message($!gtk_widget, 2419, $start, $end);
     return;
 }
 
-#
-# SCI_COPYTEXT(int length, const char *text)
-#
+=begin pod
+
+=head3 copy-text(Str $text)
+
+Copy argument text to the clipboard.
+
+=end pod
 method copy-text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2420, $text.chars, $text);
     return;
 }
 
-#
-# SCI_COPYALLOWLINE
-#
+=begin pod
+
+=head3 copy-allow-line
+
+Copy the selection, if selection empty copy the line with the caret.
+
+=end pod
 method copy-allow-line {
     gtk_scintilla_send_message($!gtk_widget, 2519, 0, 0);
     return;
 }
 
-#
-# SCI_SETPASTECONVERTENDINGS(bool convert)
-#
+=begin pod
+
+=head3 paste-convert-endings(Bool $convert)
+
+Enable or disable convert-on-paste for line endings
+
+=end pod
 multi method paste-convert-endings(Bool $convert) {
     gtk_scintilla_send_message($!gtk_widget, 2467, $convert ?? 1 !! 0, 0);
     return;
 }
 
-#
-# SCI_GETPASTECONVERTENDINGS → bool
-#
-multi method paste-convert-endings(Bool $convert) {
+=begin pod
+
+=head3 paste-convert-endings returns Bool
+
+Returns whether convert-on-paste for line endings is enabled or disabled.
+
+=end pod
+multi method paste-convert-endings returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2468, 0, 0) == 1;
 }
 
-##
-## Text retrieval and modification
-##
+=begin pod
+
+=head2 Text retrieval and modification
+
+
+Each byte in a Scintilla document is associated with a byte of styling
+information. The combination of a character byte and a style byte is called a
+cell. Style bytes are interpreted an index into an array of styles.
+
+In this document, 'character' normally refers to a byte even when multi-byte
+characters are used. Lengths measure the numbers of bytes, not the amount of
+characters in those bytes.
+
+Positions within the Scintilla document refer to a character or the gap before
+that character. The first character in a document is 0, the second 1 and so on.
+If a document contains nLen characters, the last character is numbered nLen-1.
+The caret exists between character positions and can be located from before the
+first character (0) to after the last character (nLen).
+
+There are places where the caret can not go where two character bytes make up
+one character. This occurs when a DBCS character from a language like Japanese
+is included in the document or when line ends are marked with the CP/M standard
+of a carriage return followed by a line feed. The INVALID_POSITION constant (-1)
+represents an invalid position within the document.
+
+All lines of text in Scintilla are the same height, and this height is
+calculated from the largest font in any current style. This restriction is for
+performance; if lines differed in height then calculations involving positioning
+of text would require the text to be styled first.
+
+=end pod
 
 =begin pod
 
@@ -243,7 +373,7 @@ method delete-range(Int $start, Int $length) {
 #
 multi method char-at(Int $position) returns Str {
     my $ch = gtk_scintilla_send_message($!gtk_widget, 2007, $position, 0);
-    #TODO fire exception?
+    #TODO fire X:Scintilla::InvalidPosition exception?
     return $ch != 0 ?? chr($ch) !! "";
 }
 
@@ -321,7 +451,7 @@ multi method text returns Str {
 
 =begin pod
 
-=head save-point
+=head3 save-point
 
 Remember the current position in the undo history as the position at which the
 document was saved.
@@ -330,17 +460,6 @@ document was saved.
 method save-point {
     gtk_scintilla_send_message($!gtk_widget, 2014, 0, 0);
     return;
-}
-
-=begin pod
-
-=head3 modified
-
-Returns whether the document is different from when it was last saved or not.
-
-=end pod
-method modified returns Bool {
-    return gtk_scintilla_send_message($!gtk_widget, 2159, 0, 0) == 1;
 }
 
 #
@@ -391,7 +510,7 @@ multi method line-length(Int $line) returns Int {
 
 =begin pod
 
-=head2 clear-all
+=head3 clear-all
 
 Delete all text in the document unless the document is read-only.
 
@@ -409,13 +528,11 @@ multi method line-count {
 
 =head2 Long lines
 
-Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
+You can choose to mark lines that exceed a given length by drawing a vertical
+line or by colouring the background of characters that exceed the set length.
 
 =end pod
-#
-# SCI_SETEDGEMODE(int edgeMode)
-# SCI_GETEDGEMODE
-#
+
 =begin pod
 
 =head3 edge-mode
@@ -611,7 +728,10 @@ multi method cursor returns CursorType {
 
 =head2 Zooming
 
-Please see L<here|http://www.scintilla.org/ScintillaDoc.html#Zooming>.
+Scintilla incorporates a "zoom factor" that lets you make all the text in the
+document larger or smaller in steps of one point. The displayed point size never
+goes below 2, whatever zoom factor you set. You can set zoom factors in the
+range -10 to +20 points.
 
 =head3 zoom-in
 

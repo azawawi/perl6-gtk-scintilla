@@ -6,15 +6,110 @@ GTK::Scintilla::Editor - GTK Scintilla Editor Widget
 Synopsis
 ========
 
-TODO Add Synopsis section documentation
+    use v6;
+
+    use GTK::Simple::App;
+    use GTK::Scintilla;
+    use GTK::Scintilla::Editor;
+
+    my $app = GTK::Simple::App.new( title => "Hello GTK + Scintilla!" );
+
+    my $editor = GTK::Scintilla::Editor.new;
+    $editor.size-request(500, 300);
+    $app.set-content($editor);
+
+    $editor.style-clear-all;
+    $editor.lexer(SCLEX_PERL);
+    $editor.style-foreground( SCE_PL_COMMENTLINE, 0x008000 );
+    $editor.style-foreground( SCE_PL_POD        , 0x008000 );
+    $editor.style-foreground( SCE_PL_NUMBER     , 0x808000 );
+    $editor.style-foreground( SCE_PL_WORD       , 0x800000 );
+    $editor.style-foreground( SCE_PL_STRING     , 0x800080 );
+    $editor.style-foreground( SCE_PL_OPERATOR   , 1 );
+    $editor.text(q{
+    # A Perl comment
+    use Modern::Perl;
+
+    say "Hello world";
+    });
+
+    $editor.show;
+    $app.run;
 
 Description
 ===========
 
-TODO Add Description section documentation
+Scintilla is a free open source library that provides a text editing component function, with an emphasis on advanced features for source code editing. SciTE (cross-platform, developed by the same author), Geany (cross-platform), Notepad++ (Windows), Programmer's Notepad (Windows) and Notepad2 (Windows) are examples of standalone text editors based on Scintilla. Padre (Perl IDE) is also based on Scintilla.
 
 Methods
 =======
+
+Selection and information
+-------------------------
+
+Scintilla maintains a selection that stretches between two points, the anchor and the current position. If the anchor and the current position are the same, there is no selected text. Positions in the document range from 0 (before the first character), to the document size (after the last character). If you use messages, there is nothing to stop you setting a position that is in the middle of a CRLF pair, or in the middle of a 2 byte character. However, keyboard commands will not move the caret into such positions.
+
+### modified
+
+Returns whether the document is different from when it was last saved or not.
+
+Cut, copy and paste
+-------------------
+
+The following methods provide clipboard-related operations.
+
+### cut
+
+Cut the selection to the clipboard.
+
+### copy
+
+Copy the selection to the clipboard.
+
+### paste
+
+Paste the contents of the clipboard into the document replacing the selection.
+
+### clear
+
+Clear the selection.
+
+### can-paste
+
+Returns whether a paste will succeed or not.
+
+### copy-range(Int $start, Int $end)
+
+Copy a range of text to the clipboard. Positions are clipped into the document.
+
+### copy-text(Str $text)
+
+Copy argument text to the clipboard.
+
+### copy-allow-line
+
+Copy the selection, if selection empty copy the line with the caret.
+
+### paste-convert-endings(Bool $convert)
+
+Enable or disable convert-on-paste for line endings
+
+### paste-convert-endings returns Bool
+
+Returns whether convert-on-paste for line endings is enabled or disabled.
+
+Text retrieval and modification
+-------------------------------
+
+Each byte in a Scintilla document is associated with a byte of styling information. The combination of a character byte and a style byte is called a cell. Style bytes are interpreted an index into an array of styles.
+
+In this document, 'character' normally refers to a byte even when multi-byte characters are used. Lengths measure the numbers of bytes, not the amount of characters in those bytes.
+
+Positions within the Scintilla document refer to a character or the gap before that character. The first character in a document is 0, the second 1 and so on. If a document contains nLen characters, the last character is numbered nLen-1. The caret exists between character positions and can be located from before the first character (0) to after the last character (nLen).
+
+There are places where the caret can not go where two character bytes make up one character. This occurs when a DBCS character from a language like Japanese is included in the document or when line ends are marked with the CP/M standard of a carriage return followed by a line feed. The INVALID_POSITION constant (-1) represents an invalid position within the document.
+
+All lines of text in Scintilla are the same height, and this height is calculated from the largest font in any current style. This restriction is for performance; if lines differed in height then calculations involving positioning of text would require the text to be styled first.
 
 ### insert-text(Int $pos, Str $text)
 
@@ -48,15 +143,18 @@ Replace the contents of the document with the argument text.
 
 Returns all the text in the document.
 
-clear-all
----------
+### save-point
+
+Remember the current position in the undo history as the position at which the document was saved.
+
+### clear-all
 
 Delete all text in the document unless the document is read-only.
 
 Long lines
 ----------
 
-Please see [here](http://www.scintilla.org/ScintillaDoc.html#LongLines).
+You can choose to mark lines that exceed a given length by drawing a vertical line or by colouring the background of characters that exceed the set length.
 
 ### edge-mode
 
@@ -73,7 +171,7 @@ Please see [here](http://www.scintilla.org/ScintillaDoc.html#LongLines).
 Zooming
 -------
 
-Please see [here](http://www.scintilla.org/ScintillaDoc.html#Zooming).
+Scintilla incorporates a "zoom factor" that lets you make all the text in the document larger or smaller in steps of one point. The displayed point size never goes below 2, whatever zoom factor you set. You can set zoom factors in the range -10 to +20 points.
 
 ### zoom-in
 
