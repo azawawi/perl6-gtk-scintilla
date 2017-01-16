@@ -378,7 +378,7 @@ multi method char-at(Int $position) returns Str {
 }
 
 =begin pod
-=head3 length()
+=head3 length
 
 Returns the number of bytes in the document.
 

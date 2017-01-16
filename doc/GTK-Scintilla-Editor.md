@@ -123,7 +123,7 @@ Add text to the document at current position.
 
 Delete a range of text in the document.
 
-### length()
+### length
 
 Returns the number of bytes in the document.
 
