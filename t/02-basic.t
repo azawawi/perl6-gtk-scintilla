@@ -47,7 +47,6 @@ ok( $editor.text eq $text-after-delete, ".delete-range works");
 
 # Test char-at
 $editor.text($text);
-diag $editor.char-at(0);
 ok( $editor.char-at(0)  eq $text.comb[0], "char-at(0) works");
 ok( $editor.char-at(5)  eq $text.comb[5], "char-at(5) works");
 ok( $editor.char-at(-1) eq "",            "invalid position returns empty string");
