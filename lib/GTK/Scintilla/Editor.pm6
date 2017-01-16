@@ -36,20 +36,20 @@ method style-clear-all {
     return;
 }
 
-method style-set-foreground(Int $style, Int $color) {
+method style-foreground(Int $style, Int $color) {
     gtk_scintilla_send_message($!gtk_widget, 2051, $style, $color);
 }
 
-method style-set-bold(Int $style, Bool $bold) {
+multi method style-bold(Int $style, Bool $bold) {
     gtk_scintilla_send_message($!gtk_widget, 2053, $style, $bold ?? 1 !! 0);
     return;
 }
 
-method style-get-bold(Int $style) returns Bool {
+multi method style-bold(Int $style) returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2483, $style, 0) == 1;
 }
 
-method set-lexer(Int $lexer) {
+multi method lexer(Int $lexer) {
     gtk_scintilla_send_message($!gtk_widget, 4001, $lexer, 0);
     return;
 }
@@ -61,7 +61,7 @@ method set-lexer(Int $lexer) {
 #
 # SCI_SETSELECTIONSTART(int anchor)
 #
-method set-selection-start(Int $anchor) {
+multi method selection-start(Int $anchor) {
     gtk_scintilla_send_message($!gtk_widget, 2142, $anchor, 0);
     return;
 }
@@ -69,14 +69,14 @@ method set-selection-start(Int $anchor) {
 #
 # SCI_GETSELECTIONSTART → position
 #
-method get-selection-start() returns Int {
+multi method selection-start() returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2143, 0, 0);
 }
 
 #
 # SCI_SETSELECTIONEND(int caret)
 #
-method set-selection-end(Int $caret) {
+multi method selection-end(Int $caret) {
     gtk_scintilla_send_message($!gtk_widget, 2144, $caret, 0);
     return;
 }
@@ -84,7 +84,7 @@ method set-selection-end(Int $caret) {
 #
 # SCI_GETSELECTIONEND → position
 #
-method get-selection-end returns Int {
+multi method selection-end returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2145, 0, 0);
 }
 
@@ -94,7 +94,7 @@ method get-selection-end returns Int {
 # This removes any selection and sets the caret at caret. The caret is not
 # scrolled into view.
 #
-method set-empty-selection(Int $caret) {
+multi method empty-selection(Int $caret) {
     gtk_scintilla_send_message($!gtk_widget, 2556, $caret, 0);
     return;
 }
@@ -178,7 +178,7 @@ method copy-allow-line() {
 #
 # SCI_SETPASTECONVERTENDINGS(bool convert)
 #
-method set-paste-convert-endings(Bool $convert) {
+multi method paste-convert-endings(Bool $convert) {
     gtk_scintilla_send_message($!gtk_widget, 2467, $convert ?? 1 !! 0, 0);
     return;
 }
@@ -186,7 +186,7 @@ method set-paste-convert-endings(Bool $convert) {
 #
 # SCI_GETPASTECONVERTENDINGS → bool
 #
-method get-paste-convert-endings(Bool $convert) {
+multi method paste-convert-endings(Bool $convert) {
     return gtk_scintilla_send_message($!gtk_widget, 2468, 0, 0) == 1;
 }
 
@@ -221,7 +221,7 @@ method delete-range(Int $start, Int $length) {
 #
 # SCI_GETCHARAT(int pos) → int
 #
-method get-char-at(Int $position) returns Str {
+multi method char-at(Int $position) returns Str {
     my $ch = gtk_scintilla_send_message($!gtk_widget, 2007, $position, 0);
     #TODO fire exception?
     return $ch != 0 ?? chr($ch) !! "";
@@ -230,14 +230,14 @@ method get-char-at(Int $position) returns Str {
 #
 # SCI_GETTEXTLENGTH => int
 #
-method get-text-length() returns Int {
+multi method text-length() returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2183, 0, 0);
 }
 
 #
 # SCI_SETTEXT(<unused>, const char *text)
 #
-method set-text(Str $text) {
+multi method text(Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2181, 0, $text);
 }
 
@@ -245,8 +245,8 @@ method set-text(Str $text) {
 #
 # SCI_GETTEXT(int length, char *text NUL-terminated) => int
 #
-method get-text() returns Str {
-    my $buffer-length = self.get-text-length + 1;
+multi method text() returns Str {
+    my $buffer-length = self.text-length + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
     my $len = gtk_scintilla_send_message_carray($!gtk_widget, 2182,
@@ -265,7 +265,7 @@ method get-text() returns Str {
 # unmodified. This is usually done when the file is saved or loaded, hence the
 # name "save point".
 #
-method set-save-point() {
+multi method save-point() {
     gtk_scintilla_send_message($!gtk_widget, 2014, 0, 0);
     return;
 }
@@ -276,8 +276,8 @@ method set-save-point() {
 # This fills the buffer defined by text with the contents of the nominated line
 # (lines start at 0)
 #
-method get-line(Int $line) returns Str {
-    my $buffer-length = self.get-line-length($line) + 1;
+multi method line(Int $line) returns Str {
+    my $buffer-length = self.line-length($line) + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
     my $len = gtk_scintilla_send_message_carray($!gtk_widget, 2153,
@@ -292,7 +292,7 @@ method get-line(Int $line) returns Str {
 #
 # SCI_SETREADONLY(bool readOnly)
 #
-method set-read-only(Bool $read-only) {
+multi method read-only(Bool $read-only) {
     gtk_scintilla_send_message($!gtk_widget, 2171, $read-only ?? 1 !! 0, 0);
     return;
 }
@@ -300,7 +300,7 @@ method set-read-only(Bool $read-only) {
 #
 # SCI_GETREADONLY → bool
 #
-method get-read-only returns Bool {
+multi method read-only returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2140, 0, 0) == 1;
 }
 
@@ -312,7 +312,7 @@ method get-read-only returns Bool {
 # you want the length of the line not including any end of line characters, use
 # SCI_GETLINEENDPOSITION(line) - SCI_POSITIONFROMLINE(line).
 #
-method get-line-length(Int $line) returns Int {
+multi method line-length(Int $line) returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2350, $line, 0);
 }
 
@@ -324,7 +324,7 @@ method clear-all {
     return;
 }
 
-method get-line-count {
+multi method line-count {
     return gtk_scintilla_send_message($!gtk_widget, 2154, 0, 0);
 }
 
@@ -334,57 +334,62 @@ method get-line-count {
 
 Please see L<here|http://www.scintilla.org/ScintillaDoc.html#LongLines>.
 
-=head3 set-edge-mode
+=end pod
+#
+# SCI_SETEDGEMODE(int edgeMode)
+# SCI_GETEDGEMODE
+#
+=begin pod
 
-SCI_SETEDGEMODE(int edgeMode)
+=head3 edge-mode
 
 =end pod
-method set-edge-mode(Int $edge-mode) {
+multi method edge-mode(Int $edge-mode) {
     gtk_scintilla_send_message($!gtk_widget, 2363, $edge-mode, 0);
 }
 
 =begin pod
 
-=head3 get-edge-mode
-
-SCI_GETEDGEMODE
+=head3 edge-mode
 
 =end pod
-method get-edge-mode returns Int {
+multi method edge-mode returns Int {
     gtk_scintilla_send_message($!gtk_widget, 2362, 0, 0);
 }
 
+#
+# SCI_SETEDGECOLUMN(int column)
+# SCI_GETEDGECOLUMN
+#
 =begin pod
 
-=head3 set-edge-column
-
-SCI_SETEDGECOLUMN(int column)
+=head3 edge-column
 
 =end pod
-method set-edge-column(Int $column) {
+multi method edge-column(Int $column) {
     gtk_scintilla_send_message($!gtk_widget, 2361, $column, 0);
     return;
 }
 
 =begin pod
 
-=head3 get-edge-column
-
-SCI_GETEDGECOLUMN
+=head3 edge-column
 
 =end pod
-method get-edge-column returns Int {
+multi method edge-column returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2360, 0, 0);
 }
 
+#
+# SCI_SETEDGECOLOUR(int colour)
+# SCI_GETEDGECOLOUR
+#
 =begin pod
 
-=head3 set-edge-color
-
-SCI_SETEDGECOLOUR(int colour)
+=head3 edge-color
 
 =end pod
-method set-edge-color(Int $color) {
+multi method edge-color(Int $color) {
     gtk_scintilla_send_message($!gtk_widget, 2365, $color, 0);
     return;
 }
@@ -393,10 +398,8 @@ method set-edge-color(Int $color) {
 
 =head3 get-edge-color
 
-SCI_GETEDGECOLOUR
-
 =end pod
-method get-edge-color returns Int {
+multi method edge-color returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2364, 0, 0);
 }
 
@@ -419,12 +422,12 @@ method zoom-out {
     return;
 }
 
-method set-zoom(Int $zoom-in-points) {
+multi method zoom(Int $zoom-in-points) {
     gtk_scintilla_send_message($!gtk_widget, 2373, $zoom-in-points, 0);
     return;
 }
 
-method get-zoom returns Int {
+multi method zoom returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2374, 0, 0);
 }
 
@@ -471,7 +474,7 @@ method can-redo returns Bool {
 #
 # SCI_SETUNDOCOLLECTION(bool collectUndo)
 #
-method set-undo-collection(Bool $collect-undo) {
+multi method undo-collection(Bool $collect-undo) {
     gtk_scintilla_send_message($!gtk_widget, 2012, $collect-undo ?? 1 !! 0, 0);
     return;
 }
@@ -479,7 +482,7 @@ method set-undo-collection(Bool $collect-undo) {
 #
 # SCI_GETUNDOCOLLECTION → bool
 #
-method get-undo-collection returns Bool {
+multi method undo-collection returns Bool {
     return gtk_scintilla_send_message($!gtk_widget, 2019, 0, 0) == 1;
 }
 
@@ -514,7 +517,7 @@ method add-undo-action(Int $token, Int $flags) {
 #
 # SCI_SETCURSOR(int cursorType)
 #
-method set-cursor(CursorType $cursor-type) {
+multi method cursor(CursorType $cursor-type) {
     gtk_scintilla_send_message($!gtk_widget, 2386, Int($cursor-type), 0);
     return;
 }
@@ -522,7 +525,7 @@ method set-cursor(CursorType $cursor-type) {
 #
 # SCI_GETCURSOR → int
 #
-method get-cursor returns CursorType {
+multi method cursor returns CursorType {
     my $cursor-type = gtk_scintilla_send_message($!gtk_widget, 2387, 0, 0);
     return CursorType($cursor-type);
 }
@@ -537,7 +540,7 @@ Please see L<here|http://www.scintilla.org/ScintillaDoc.html#Zooming>.
 
 =head3 zoom-out
 
-=head3 set-zoom
+=head3 zoom
 
 =head3 get-zoom
 

@@ -14,15 +14,15 @@ $editor.size-request(500, 300);
 $app.set-content($editor);
 
 $editor.style-clear-all;
-$editor.set-lexer(SCLEX_PERL);
-$editor.style-set-foreground(SCE_PL_COMMENTLINE, 0x008000);
-$editor.style-set-foreground(SCE_PL_POD,         0x008000);
-$editor.style-set-foreground(SCE_PL_NUMBER,      0x808000);
-$editor.style-set-foreground(SCE_PL_WORD,        0x800000);
-$editor.style-set-foreground(SCE_PL_STRING,      0x800080);
-$editor.style-set-foreground(SCE_PL_OPERATOR, 1);
+$editor.lexer(SCLEX_PERL);
+$editor.style-foreground(SCE_PL_COMMENTLINE, 0x008000);
+$editor.style-foreground(SCE_PL_POD,         0x008000);
+$editor.style-foreground(SCE_PL_NUMBER,      0x808000);
+$editor.style-foreground(SCE_PL_WORD,        0x800000);
+$editor.style-foreground(SCE_PL_STRING,      0x800080);
+$editor.style-foreground(SCE_PL_OPERATOR, 1);
 my $version = GTK::Scintilla.version<string>;
-$editor.set-text(qq{
+$editor.text(qq{
 # A Perl comment
 use Modern::Perl;
 

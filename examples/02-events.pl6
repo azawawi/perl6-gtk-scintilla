@@ -34,7 +34,7 @@ $insert-text-top-button.clicked.tap: {
 };
 
 $insert-text-bottom-button.clicked.tap: {
-    my $length = $editor.get-text-length;
+    my $length = $editor.text-length;
     say "Length: $length";
     $editor.insert-text($length, "# a bottom comment\n");
 };
@@ -48,36 +48,36 @@ $zoom-out-button.clicked.tap: {
 };
 
 # Long line API
-$editor.set-edge-mode(EDGE_LINE);
-printf("edge-mode   = %d\n",   $editor.get-edge-mode);
-$editor.set-edge-column(80);
-printf("edge-column = %d\n",   $editor.get-edge-column);
-printf("edge-color  = 0x%x\n", $editor.get-edge-color);
+$editor.edge-mode(EDGE_LINE);
+printf("edge-mode   = %d\n",   $editor.edge-mode);
+$editor.edge-column(80);
+printf("edge-column = %d\n",   $editor.edge-column);
+printf("edge-color  = 0x%x\n", $editor.edge-color);
 
 # Zoom API
-$editor.set-zoom(10);
-printf("get-zoom    = %d\n", $editor.get-zoom());
+$editor.zoom(10);
+printf("zoom    = %d\n", $editor.zoom());
 
 $editor.style-clear-all;
-$editor.set-lexer(SCLEX_PERL);
-$editor.style-set-foreground(SCE_PL_COMMENTLINE, 0x008000);
-$editor.style-set-foreground(SCE_PL_POD,         0x008000);
-$editor.style-set-foreground(SCE_PL_NUMBER,      0x808000);
-$editor.style-set-foreground(SCE_PL_WORD,        0x800000);
-$editor.style-set-foreground(SCE_PL_STRING,      0x800080);
-$editor.style-set-foreground(SCE_PL_OPERATOR, 1);
-$editor.style-set-bold(SCE_PL_COMMENTLINE, True);
-$editor.set-text(q{
+$editor.lexer(SCLEX_PERL);
+$editor.style-foreground(SCE_PL_COMMENTLINE, 0x008000);
+$editor.style-foreground(SCE_PL_POD,         0x008000);
+$editor.style-foreground(SCE_PL_NUMBER,      0x808000);
+$editor.style-foreground(SCE_PL_WORD,        0x800000);
+$editor.style-foreground(SCE_PL_STRING,      0x800080);
+$editor.style-foreground(SCE_PL_OPERATOR, 1);
+$editor.style-bold(SCE_PL_COMMENTLINE, True);
+$editor.text(q{
 # A Perl comment
 use Modern::Perl;
 
 say "Events Demo";
 });
 
-printf("Line #1 length = %d\n", $editor.get-line-length(1));
-printf("Line #1 text = '%s'\n", $editor.get-line(1));
+printf("Line #1 length = %d\n", $editor.line-length(1));
+printf("Line #1 text = '%s'\n", $editor.line(1));
 
-$editor.set-save-point;
+$editor.save-point;
 
 $editor.show;
 $app.run;
