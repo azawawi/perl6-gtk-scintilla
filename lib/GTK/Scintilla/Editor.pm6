@@ -222,9 +222,13 @@ method add-text(Str $text) {
     return;
 }
 
-#
-# SCI_DELETERANGE(int start, int lengthDelete)
-#
+=begin pod
+
+=head3 delete-range(Int $start, Int $length)
+
+Delete a range of text in the document.
+
+=end pod
 method delete-range(Int $start, Int $length) {
     gtk_scintilla_send_message($!gtk_widget, 2645, $start, $length);
     return;
@@ -237,6 +241,16 @@ multi method char-at(Int $position) returns Str {
     my $ch = gtk_scintilla_send_message($!gtk_widget, 2007, $position, 0);
     #TODO fire exception?
     return $ch != 0 ?? chr($ch) !! "";
+}
+
+=begin pod
+=head3 length()
+
+Returns the number of bytes in the document.
+
+=end pod
+method length() returns Int {
+    return gtk_scintilla_send_message($!gtk_widget, 2006, 0, 0);
 }
 
 #
@@ -328,9 +342,13 @@ multi method line-length(Int $line) returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2350, $line, 0);
 }
 
-#
-# Unless the document is read-only, this deletes all the text.
-#
+=begin pod
+
+=head2 clear-all
+
+Delete all text in the document unless the document is read-only.
+
+=end pod
 method clear-all {
     gtk_scintilla_send_message($!gtk_widget, 2004, 0, 0);
     return;

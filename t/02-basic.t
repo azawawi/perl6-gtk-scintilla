@@ -10,7 +10,7 @@ use GTK::Scintilla::Editor;
 # Test data
 my @lines = [ "Line #0\n", "Line #1\n", "Line #2" ];
 
-plan 39 + @lines.elems * 2;
+plan 41 + @lines.elems * 2;
 
 # Test version method
 my $version = GTK::Scintilla.version;
@@ -72,6 +72,12 @@ for 0..@lines.elems - 1 -> $i {
     ok( $editor.line-length($i) == $line.chars, "line-length($i) works");
     ok( $editor.line($i)        eq $line,       "line($i) works");
 }
+
+# Test length
+$editor.text("");
+ok( $editor.length == 0, ".length works");
+$editor.text($text);
+ok( $editor.length >= $text.chars, ".length works");
 
 # Test line-count
 ok($editor.line-count == $num-lines, "line-count works");
