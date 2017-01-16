@@ -69,7 +69,7 @@ multi method selection-start(Int $anchor) {
 #
 # SCI_GETSELECTIONSTART → position
 #
-multi method selection-start() returns Int {
+multi method selection-start returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2143, 0, 0);
 }
 
@@ -102,7 +102,7 @@ multi method empty-selection(Int $caret) {
 #
 # SCI_SELECTALL
 #
-method select-all() {
+method select-all {
     gtk_scintilla_send_message($!gtk_widget, 2013, 0, 0);
     return;
 }
@@ -115,7 +115,7 @@ method select-all() {
 #
 # SCI_CUT
 #
-method cut() {
+method cut {
     gtk_scintilla_send_message($!gtk_widget, 2177, 0, 0);
     return;
 }
@@ -123,7 +123,7 @@ method cut() {
 #
 # SCI_COPY
 #
-method copy() {
+method copy {
     gtk_scintilla_send_message($!gtk_widget, 2178, 0, 0);
     return;
 }
@@ -131,7 +131,7 @@ method copy() {
 #
 # SCI_PASTE
 #
-method paste() {
+method paste {
     gtk_scintilla_send_message($!gtk_widget, 2179, 0, 0);
     return;
 }
@@ -139,7 +139,7 @@ method paste() {
 #
 # SCI_CLEAR
 #
-method clear() {
+method clear {
     gtk_scintilla_send_message($!gtk_widget, 2180, 0, 0);
     return;
 }
@@ -147,7 +147,7 @@ method clear() {
 #
 # SCI_CANPASTE → bool
 #
-method can-paste() {
+method can-paste {
     return gtk_scintilla_send_message($!gtk_widget, 2173, 0, 0) == 1;
 }
 
@@ -170,7 +170,7 @@ method copy-text(Str $text) {
 #
 # SCI_COPYALLOWLINE
 #
-method copy-allow-line() {
+method copy-allow-line {
     gtk_scintilla_send_message($!gtk_widget, 2519, 0, 0);
     return;
 }
@@ -194,9 +194,13 @@ multi method paste-convert-endings(Bool $convert) {
 ## Text retrieval and modification
 ##
 
-#
-# SCI_INSERTTEXT(int pos, const char *text)
-#
+=begin pod
+
+=head3 insert-text(Int $pos, Str $text)
+
+Insert string at a position.
+
+=end pod
 method insert-text(Int $pos, Str $text) {
     gtk_scintilla_send_message_str($!gtk_widget, 2003, $pos, $text);
     return;
@@ -249,7 +253,7 @@ multi method char-at(Int $position) returns Str {
 Returns the number of bytes in the document.
 
 =end pod
-method length() returns Int {
+method length returns Int {
     return gtk_scintilla_send_message($!gtk_widget, 2006, 0, 0);
 }
 
@@ -297,12 +301,12 @@ multi method text(Str $text) {
 
 =begin pod
 
-=head3 text()
+=head3 text
 
 Returns all the text in the document.
 
 =end pod
-multi method text() returns Str {
+multi method text returns Str {
     my $buffer-length = self.text-length + 1;
     my $buffer = CArray[uint8].new;
     $buffer[$buffer-length - 1] = 0;
@@ -322,7 +326,7 @@ multi method text() returns Str {
 # unmodified. This is usually done when the file is saved or loaded, hence the
 # name "save point".
 #
-multi method save-point() {
+multi method save-point {
     gtk_scintilla_send_message($!gtk_widget, 2014, 0, 0);
     return;
 }
@@ -496,7 +500,7 @@ multi method zoom returns Int {
 #
 # SCI_UNDO
 #
-method undo() {
+method undo {
     gtk_scintilla_send_message($!gtk_widget, 2176, 0, 0);
     return;
 }
@@ -512,7 +516,7 @@ method can-undo returns Bool {
 #
 # SCI_EMPTYUNDOBUFFER
 #
-method empty-undo-buffer() {
+method empty-undo-buffer {
     gtk_scintilla_send_message($!gtk_widget, 2175, 0, 0);
     return;
 }
@@ -520,7 +524,7 @@ method empty-undo-buffer() {
 #
 # SCI_REDO
 #
-method redo() {
+method redo {
     gtk_scintilla_send_message($!gtk_widget, 2011, 0, 0);
     return;
 }
