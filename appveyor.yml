@@ -18,7 +18,6 @@ install:
 build: off
 
 test_script:
-  - prove -ve "perl6 -Ilib"
   - set AUTHOR_TESTING=1 && prove -ve "perl6 -Ilib"
   - zef install .
 
