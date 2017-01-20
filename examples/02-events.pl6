@@ -48,8 +48,8 @@ $zoom-out-button.clicked.tap: {
 };
 
 # Long line API
-$editor.edge-mode(EDGE_LINE);
-printf("edge-mode   = %d\n",   $editor.edge-mode);
+$editor.edge-mode(Line);
+printf("edge-mode   = %s\n",   $editor.edge-mode.perl);
 $editor.edge-column(80);
 printf("edge-column = %d\n",   $editor.edge-column);
 printf("edge-color  = 0x%x\n", $editor.edge-color);

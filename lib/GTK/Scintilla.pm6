@@ -66,10 +66,6 @@ constant SCE_PL_STRING_QQ_VAR is export = 64;
 constant SCE_PL_STRING_QX_VAR is export = 65;
 constant SCE_PL_STRING_QR_VAR is export = 66;
 
-constant EDGE_NONE is export       = 0;
-constant EDGE_LINE is export       = 1;
-constant EDGE_BACKGROUND is export = 2;
-
 method version {
     return {
         major  => 3,
