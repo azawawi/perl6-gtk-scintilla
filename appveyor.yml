@@ -18,8 +18,8 @@ install:
 build: off
 
 test_script:
-  - prove -ve "perl6 -Ilib" t
-  - set TEST_AUTHOR=1 && prove -ve "perl6 -Ilib" t
-  - zef install GTK::Scintilla
+  - prove -ve "perl6 -Ilib"
+  - set AUTHOR_TESTING=1 && prove -ve "perl6 -Ilib"
+  - zef install .
 
 shallow_clone: true
